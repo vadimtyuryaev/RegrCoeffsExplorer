@@ -1,16 +1,16 @@
 #' Plot Odds Ratio
 #'
 #' @description
-#' The function accepts input in the form of a generalized linear model (GLM) 
-#' or a glmnet object, specifically those employing binomial families, and 
-#' proceeds to generate a suite of visualizations illustrating alterations in 
-#' Odds Ratios for given predictor variable corresponding to changes between 
-#' minimum, first quartile (Q1), median (Q2), third quartile (Q3), and maximum 
-#' values observed in empirical data. These plots offer a graphical depiction 
+#' The function accepts input in the form of a generalized linear model (GLM)
+#' or a glmnet object, specifically those employing binomial families, and
+#' proceeds to generate a suite of visualizations illustrating alterations in
+#' Odds Ratios for given predictor variable corresponding to changes between
+#' minimum, first quartile (Q1), median (Q2), third quartile (Q3), and maximum
+#' values observed in empirical data. These plots offer a graphical depiction
 #' of the influence exerted by individual predictors on the odds of the outcome,
-#' facilitating a clear interpretation of their respective significance. Such 
-#' a tool aids in comprehending the interplay between predictors and outcomes 
-#' within the logistic regression framework, particularly within the context 
+#' facilitating a clear interpretation of their respective significance. Such
+#' a tool aids in comprehending the interplay between predictors and outcomes
+#' within the logistic regression framework, particularly within the context
 #' of empirical data distributions.
 #'
 #' @param func A fitted model object with binomial family, expected to be one
@@ -37,8 +37,10 @@
 #'
 #'   - `$SidebySide` : A `ggarrange` object containing both visualizations
 #'                     side-by-side.
+#' @importFrom "grDevices" "grey.colors"
+#' @importFrom "glmnet" "glmnet"
 #' @importFrom "magrittr" "%>%"
-#' @importFrom "egg" "ggarrange"
+#' @importFrom "ggpubr" "ggarrange"
 #' @importFrom "ggplot2" "ggplot" "geom_boxplot" "geom_jitter" "xlim" "xlab"
 #'                       "ylab" "theme_minimal" "geom_bar" "geom_line"
 #'                       "geom_point" "guides" "theme" "aes" "guide_legend"
@@ -69,7 +71,7 @@
 #'
 #'
 #' ### GLMNET Object Example
-#' library(glmnet)
+#' require(glmnet)
 #'
 #' # Get Lasso model
 #' y_lasso = data$y
