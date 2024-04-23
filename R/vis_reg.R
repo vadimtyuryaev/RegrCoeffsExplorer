@@ -15,6 +15,7 @@
 #' @importFrom magrittr `%>%`
 #' @importFrom dplyr select_if mutate
 #' @importFrom stats coef coefficients confint quantile reorder
+#' @importFrom rlang .data
 #'
 #' @param object A fitted model object, expected to be one of the following classes:
 #'   - `lm`                 : Linear Models.
@@ -41,7 +42,7 @@
 #'    - For `fixedLassoInf` or `fixedLogitLassoInf` classes it is set to `TRUE`.
 #'    - `confint()` is used to generate CIs for the `lm` and `glm lm` classes.
 #'    - `If CIs are desired for the regularized models, please, fit your model
-#'       using `fixedLassoInf()` function from the `SelectiveInference` package
+#'       using `fixedLassoInf()` function from the `selectiveInference` package
 #'       following the steps outlined in the documentation for this package and
 #'       pass the object of class `fixedLassoInf` or `fixedLogitLassoInf`.
 #'
@@ -102,7 +103,7 @@
 #'
 #' * Certain steps should be followed in order to produce Confidence Intervals
 #'   for the regularized models. Please, refer to the vignette for the `vis_reg()`
-#'   function and the documentation of the `SelectiveInference` package.
+#'   function and the documentation of the `selectiveInference` package.
 #'
 #' * Penalty factor of 0 is not currently supported and no Confidence Intervals
 #'   will be produced in this case.
@@ -142,7 +143,7 @@
 #' * \code{\link[stats]{model.matrix}} for design matrices.
 #' * \code{\link[ggplot2]{ggplot}} for ggplot objects.
 #' * \code{\link[gridExtra]{arrangeGrob}} for grobs, gtables, and ggplots.
-#' * \code{\link[SelectiveInference]{fixedLassoInf}} for post-selection inference.
+#' * \code{\link[selectiveInference]{fixedLassoInf}} for post-selection inference.
 #'
 #' @export
 
@@ -529,50 +530,60 @@ vis_reg = function(object,...){
     }
   }
 
-  plt1=ggplot(temp_df %>%mutate(
-    filling = ifelse(Estimates > bottom_line, "Increases", "Decreases")),
-    aes(x=reorder(Variables, Estimates), y=Estimates, fill=filling)
-    )+
-    geom_hline(yintercept=bottom_line,linetype="dashed",
-               color = "grey", size=1)+
-    geom_bar(stat="identity")+
-    coord_flip()+
-    xlab("Variables")+
-    ylab(ylab_title)+
-    labs(fill = "Direction")+
-    ggtitle(title1)+
-    scale_filling+
-    {if (isTRUE(CI)){
-      geom_errorbar(aes(ymin=LowerL, ymax=UpperL), colour="black", width=.2)}}+
-    theme_bw()+
-    theme(plot.title = element_text(hjust = 0.5))+
-    theme(legend.title.align = 0.5 )+
+  plt1 = ggplot(temp_df %>% mutate(
+    filling = ifelse(.data[["Estimates"]] > bottom_line,
+                     "Increases", "Decreases")),
+              aes(x = reorder(.data[["Variables"]], .data[["Estimates"]]),                             # .data[["Variables"]] .data[["Estimates"]]
+                  y = .data[["Estimates"]],
+                  fill = .data[["filling"]])) +
+    geom_hline(yintercept = bottom_line, linetype = "dashed",
+               color = "grey", size = 1) +
+    geom_bar(stat = "identity") +
+    coord_flip() +
+    xlab("Variables") +
+    ylab(ylab_title) +
+    labs(fill = "Direction") +
+    ggtitle(title1) +
+    scale_filling +
+    {if (isTRUE(CI)) {
+      geom_errorbar(aes(ymin = .data[["LowerL"]],
+                        ymax = .data[["UpperL"]]),
+                    colour = "black", width = .2)
+    }} +
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme(legend.title.align = 0.5) +
     theme(axis.line = element_line(colour = "black"),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.border = element_blank(),
           panel.background = element_blank())
 
+
   if(!case_all_factors){
-    plt2=ggplot(temp_df_eff_size %>%mutate(
-      filling = ifelse(Estimates > bottom_line, "Increases",  "Decreases")),
-      aes(x=reorder(Variables, Estimates), y=Estimates, fill=filling)
-      )+
-      geom_hline(yintercept=bottom_line,linetype="dashed",
-                 color = "grey", size=1)+
-      geom_bar(stat="identity")+
-      coord_flip()+
-      xlab("Variables")+
-      ylab(ylab_title)+
-      labs(fill = "Direction")+
-      ggtitle(title2)+
-      scale_filling+
-      {if (isTRUE(CI)){
-        geom_errorbar(aes(ymin=LowerL, ymax=UpperL),
-                      colour="black", width=.2)}}+
-      theme_bw()+
-      theme(plot.title = element_text(hjust = 0.5))+
-      theme(legend.title.align = 0.5 )+
+    plt2 = ggplot(temp_df_eff_size %>% mutate(
+      filling = ifelse(.data[["Estimates"]] > bottom_line, "Increases",
+                       "Decreases")),
+                aes(x = reorder(.data[["Variables"]], .data[["Estimates"]]),
+                    y = .data[["Estimates"]],
+                    fill = .data[["filling"]])) +
+      geom_hline(yintercept = bottom_line, linetype = "dashed",
+                 color = "grey", size = 1) +
+      geom_bar(stat = "identity") +
+      coord_flip() +
+      xlab("Variables") +
+      ylab(ylab_title) +
+      labs(fill = "Direction") +
+      ggtitle(title2) +
+      scale_filling +
+      {if (isTRUE(CI)) {
+        geom_errorbar(aes(ymin = .data[["LowerL"]],
+                          ymax = .data[["UpperL"]]),
+                      colour = "black", width = .2)
+      }} +
+      theme_bw() +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme(legend.title.align = 0.5) +
       theme(axis.line = element_line(colour = "black"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),

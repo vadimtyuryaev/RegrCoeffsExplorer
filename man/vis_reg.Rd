@@ -47,7 +47,7 @@ The following additional arguments can be passed:
 \item The default is \code{FALSE}.
 \item For \code{fixedLassoInf} or \code{fixedLogitLassoInf} classes it is set to \code{TRUE}.
 \item \code{confint()} is used to generate CIs for the \code{lm} and \verb{glm lm} classes.
-\item \verb{If CIs are desired for the regularized models, please, fit your model using }fixedLassoInf()\verb{function from the}SelectiveInference\verb{package following the steps outlined in the documentation for this package and pass the object of class}fixedLassoInf\code{or}fixedLogitLassoInf`.
+\item \verb{If CIs are desired for the regularized models, please, fit your model using }fixedLassoInf()\verb{function from the}selectiveInference\verb{package following the steps outlined in the documentation for this package and pass the object of class}fixedLassoInf\code{or}fixedLogitLassoInf`.
 }
 \item \code{x_data_orig}: Original non-centered and non-scaled model matrix without
 intercept.
@@ -115,7 +115,7 @@ Please note the following:
 \item Only \code{Gaussian} and \code{binomial} families are currently supported.
 \item Certain steps should be followed in order to produce Confidence Intervals
 for the regularized models. Please, refer to the vignette for the \code{vis_reg()}
-function and the documentation of the \code{SelectiveInference} package.
+function and the documentation of the \code{selectiveInference} package.
 \item Penalty factor of 0 is not currently supported and no Confidence Intervals
 will be produced in this case.
 }
@@ -157,6 +157,6 @@ lasso and elastic-net regularized generalized linear models.
 \item \code{\link[stats]{model.matrix}} for design matrices.
 \item \code{\link[ggplot2]{ggplot}} for ggplot objects.
 \item \code{\link[gridExtra]{arrangeGrob}} for grobs, gtables, and ggplots.
-\item \code{\link[SelectiveInference]{fixedLassoInf}} for post-selection inference.
+\item \code{\link[selectiveInference]{fixedLassoInf}} for post-selection inference.
 }
 }

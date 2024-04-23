@@ -1,0 +1,256 @@
+---
+title: "OddsRatioVisualizer"
+author:
+  - Aleksandr Tsybakin^[York University,Mathematics and Statistic, tsybakin@yorku.ca]   
+  - Vadim Tyuryaev^[York University,Mathematics and Statistic, vadimtyu@yorku.ca]
+  - Jane Heffernan^[York University,Mathematics and Statistic,  jmheffer@yorku.ca]
+  - Hanna Jankowski^[York University,Mathematics and Statistic, hkj@yorku.ca]
+  - Kevin McGregor^[York University,Mathematics and Statistic, kevinmcg@yorku.ca]
+output: 
+  rmarkdown::html_vignette: 
+    df_print: kable
+vignette: >
+  %\VignetteIndexEntry{OddsRatioVisualizer}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# LIBRARIES
+
+```{r, echo=TRUE, include=TRUE,  warning=FALSE, message=FALSE}
+
+# library(devtools)
+# devtools::install_github("vadimtyuryaev/RegrCoeffsExplorer", ref = "main")
+
+library(RegrCoeffsExplorer)
+library(faraway)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(gridExtra)
+library(devtools)
+
+```
+
+# EXAMPLES
+
+## 1. Data
+
+We will use the *Career choice of high school students* (*hsb*) dataset from the *faraway* package to demonstrate how **plot_OR** function works and how it can be customized. This dataset contains 200 observations with 11 factors related to students' physical characteristics as well as their study performance. More details on this dataset can be found [in the official documentation](https://cran.r-project.org/web/packages/faraway/faraway.pdf).
+
+```{r}
+# Get program choice of high school students data
+hsb_data = faraway::hsb
+head(hsb_data)
+```
+
+
+## 2. Function
+
+Let's fit a GLM function with binomial family to explore what factors affected students' decisions to select *academic* program versus non-academic (*general* or *vocation*).
+
+```{r}
+# Remove id column
+hsb_data = subset(hsb_data, select=-c(id))
+
+# Fit a glm model with binary family on all variables
+glm_object=glm(I(prog == "academic") ~ gender + math + read + write + science 
+               + socst + schtyp + ses + race,
+              family=binomial(link="logit"), 
+              data=hsb_data)
+
+summary(glm_object)
+```
+
+
+## 3. Visualization
+
+Below are several examples how **plot_OR** function can be utilized. 
+
+#### 3.1 Default Plots
+
+The default visualization produced by the **plot_OR** function includes two plots placed side-by-side:
+
+1. Bar plot that illustrates the dependency of Size Effect on Odds Ratio on top of the output figure.
+2. Distribution of data points for a given variable with a Box Plot at the bottom of the output figure.
+
+In order to get these visuals the following should be passed to the **plot_OR** function:
+
+1. Fitted **GLM** or **GLMNET** function with a **binary** family.
+2. Data that was used to fit the **GLM**/**GLMNET** function.
+3. Variable name that the plots should be built for.
+
+Example of the default side-by-side visualization for the *math* variable is shown below.
+
+```{r, fig.height=6, fig.width=8}
+# Default side by side example for one variable
+plot_OR(glm_object, hsb_data, var_name="math")$"SidebySide"
+```
+
+Also, we can get each plot separately from the **plot_OR** function as shown below.
+
+```{r, fig.height=3, fig.width=8}
+# Default barplot example for one variable
+plot_OR(glm_object, hsb_data, var_name="math")$"BarPlot"
+```
+
+```{r, fig.height=3, fig.width=8}
+# Default boxplot example for one variable
+plot_OR(glm_object, hsb_data, var_name="math")$"BoxPlot"
+```
+
+
+
+#### 3.2 Customization
+
+Now let's take a look on how the plots can be customized. First way to customize the plots is to change colors of bars in Bar plot. We can specify what colors to use by passing a vector with 4 colors as a *color_filling* parameter. The default is *grey.colors(4, start=0.1, end=0.9)*.
+
+```{r}
+# Customize graph through layers and color parameter
+or_plots = plot_OR(glm_object, hsb_data, var_name="math", 
+                   color_filling=c("#CC6666", "#9999CC","#66CC99","#FF6600"))
+```
+
+Also, we can customize both Bar plot and Box plot by explicitly modifying parameters of their layers. Below are examples of how the layers look like.
+
+```{r}
+# Get Barplot layers
+or_plots$"BarPlot"$layers
+```
+
+```{r}
+# Get boxplot layers
+or_plots$"BoxPlot"$layers
+```
+
+For example, if we want to change the width of the bars in the Bar plot, we con explicitly adjust the value of *width* parameter in the *geom_params* list of parameters on the first layer of the Bar plot. The first layer of the Bar plot is related to the actual Bar plot (*geom_bar*), while the second one relates to the line (*geom_line*) that goes through the tops of the bars and the third one relates to scatter on that line (*geom_point*).
+
+Let's say we also want to plot a regular boxplot (without notch) and make data points smaller and more transparent in the Box plot. This can be achieved by changing the value of *notch* parameter to FALSE in the *geom_params* list of parameters on the first layer of the Box plot and modifying *size* and *alpha* parameters in the *aes_params* list of parameters on the second layer of the Box plot. The first layer of the Box plot is related to the actual Box plot (*geom_boxplot*), while the second one relates to the scatter of data points (*geom_point*).
+
+Once everything is customized, the plots can be visualized side-by-side using *ggarrange()* as shown below.
+
+```{r, fig.height=6, fig.width=8}
+# Change size of bars in the barplot
+or_plots$"BarPlot"$layers[[1]]$geom_params$width = 1
+
+# Change the boxplot type
+or_plots$"BoxPlot"$layers[[1]]$geom_params$notch = FALSE
+
+# Change size and transparency of points in the boxplot
+or_plots$"BoxPlot"$layers[[2]]$aes_params$size = 0.5
+or_plots$"BoxPlot"$layers[[2]]$aes_params$alpha = 0.1
+
+# Plot both graphs together
+ggarrange(or_plots$"BarPlot", or_plots$"BoxPlot", ncol=1, nrow=2, 
+          common.legend=TRUE, legend="bottom")
+```
+
+
+
+#### 3.3 Multiple Plots
+
+Now we will take a look at an example on how OR plots can be visualized for multiple variables from the dataset. We will use the same customized style from above examples. We will define a special function (*customized_plots()*) to customize the plotting parameters following the example above.
+
+```{r}
+customized_plots = function(or_plots) {
+  # Change size of bars in the barplot
+  or_plots$"BarPlot"$layers[[1]]$geom_params$width = 1
+  
+  # Change the boxplot type
+  or_plots$"BoxPlot"$layers[[1]]$geom_params$notch = FALSE
+  
+  # Change size and transparency of points in the boxplot
+  or_plots$"BoxPlot"$layers[[2]]$aes_params$size = 0.5
+  or_plots$"BoxPlot"$layers[[2]]$aes_params$alpha = 0.1
+  
+  or_plots = ggarrange(or_plots$"BarPlot", or_plots$"BoxPlot", ncol=1, nrow=2, 
+                       common.legend=TRUE, legend="bottom")
+
+  return(or_plots)
+}
+```
+
+Example below shows how side-by-side plots can be visualized for all numeric variables from the dataset using *arrangeGrob()* and *grid.arrange()*. Please note: the `fig.height` and `fig.width` parameter of the knitr chunk should be adjusted to make the visuals show properly.
+
+```{r, fig.height=10, fig.width=10}
+# Select continuous variables
+continuous_vars = hsb_data %>%
+  select_if(is.numeric)
+
+# Create a list to store all plots
+plot_list = list()
+
+# Store side by side graphs for all numeric variables
+for (name in colnames(continuous_vars)) {
+  # Customize graph through layers and color parameter
+  or_plots = plot_OR(glm_object, hsb_data, var_name=name, 
+                     color_filling=c("#CC6666", "#9999CC","#66CC99","#FF6600"))
+  
+  # Plot both graphs together
+  plot_list[[name]] = customized_plots(or_plots)
+}
+
+# Plot all graphs in one matrix
+plot_grob = arrangeGrob(grobs=plot_list)
+grid.arrange(plot_grob)
+```
+
+For example, from these plots we can see that Reading Scores distribution is skewed towards the left side and that increase in Reading Scores leads to an increase in function's Odds Ratio values (positive effect). In addition, we can see that the effect of a difference between First Quartile and Minimum in Reading Scores has a change of almost 2 units in Odds Ratio, whereas the effect of a difference between Third Quartile and Minimum in Reading Scores has a change of approximately 3.75 units in Odds Ratio.
+
+We can also see that Science Scores have a negative effect on Odds Ratio values, unlike other criterias that were used to fit the function. One possible explanation for this might be the fact that students with high Science Scores have good technical knowledge and skills which they further deepen and apply on practice in vocational programs in high school. 
+
+Let's take a look at Odds Ratio plots for GLM functions fitted for *general* and  *vocation* programs.
+
+```{r, fig.height=10, fig.width=10}
+# Select continuous variables
+continuous_vars = hsb_data %>%
+  select_if(is.numeric)
+
+# Create a list to store all plots
+plot_list = list()
+
+# Define program names and target variable
+prog_names = c("academic", "general", "vocation")
+var_name = "science"
+
+# Get Odds Ratio plots for Science variable for functions fitted for different programs 
+for (name in prog_names) {
+  # Fit a new GLM function for general and vocation programs
+  if (name != "academic") {
+    cur_glm_object = glm(I(prog == name) ~ gender + math + read + write + science 
+                         + socst + schtyp + ses + race,
+                         family=binomial(link="logit"), 
+                         data=hsb_data)
+    
+  } else {
+    cur_glm_object = glm_object
+  }
+  
+  or_plots = plot_OR(cur_glm_object, hsb_data, var_name=var_name, 
+                     color_filling=c("#CC6666", "#9999CC","#66CC99","#FF6600"))
+  
+  or_plots$"BarPlot" = or_plots$"BarPlot" + ggtitle(name)
+  plot_list[[name]] = customized_plots(or_plots)
+}
+
+# Plot all graphs in one matrix
+plot_grob = arrangeGrob(grobs=plot_list)
+grid.arrange(plot_grob)
+```
+
+The plots above show that Science Score has a positive effect on selecting either *general* or *vocation* programs. However, if we look at the distribution of Science Scores among different programs (boxplot below), we can see that students who select *academic* program have higher Science Scores than students who select *general* or  *vocation* programs.
+
+```{r, fig.height=6, fig.width=8}
+# Boxplot for Science Scores factorized by high school programs
+ggplot(hsb_data, aes(x=science, y=prog, fill=prog)) + 
+  geom_boxplot() + theme(legend.position="none")
+```
+
+

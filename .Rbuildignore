@@ -1,3 +1,7 @@
 ^RegrCoeffsExplorer\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^doc$
+^Meta$
+^README\.Rmd$
+^references.bib$

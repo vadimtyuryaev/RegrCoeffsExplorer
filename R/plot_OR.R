@@ -45,6 +45,8 @@
 #'                       "ylab" "theme_minimal" "geom_bar" "geom_line"
 #'                       "geom_point" "guides" "theme" "aes" "guide_legend"
 #'                       "element_blank"
+#' @importFrom rlang .data
+#'
 #' @examples
 #' ### Prepare Sample Binomial Data
 #' set.seed(42)
@@ -110,7 +112,7 @@ plot_OR <- function(func,
     stop("Variable name '", var_name, "' is not in data.")
   } else if (all(is.na(values))) {
     stop("Variable '", var_name, "' is null.\n")
-  } else if (class(values) != "numeric" & class(values) != "integer") {
+  } else if (!(class(values) %in% c("numeric","integer"))) {
     stop("Variable name '", var_name, "' is not numeric.")
   }
 
@@ -177,26 +179,24 @@ plot_or_graphs = function(var_name, var_coef, values, color_filling) {
                                                   "min --> max")))
   dat3=data.frame(x=xx_all, y=yy_all)
 
-  bar_plot = ggplot(data=dat2)+
-    geom_bar(aes(x=x, y=y, fill=fct), stat="identity", width=offset_val)+
-    xlim(m_min-offset_val, m_max+offset_val)+
-    ylab("OR")+
-    geom_line(data=dat3, aes(x=x, y=y), linetype="dashed", linewidth=0.5)+
-    geom_point(data=dat3, aes(x=x, y=y), shape=1)+
-    guides(fill=guide_legend(title="Size Effect"))+
-    theme_minimal()+
-    theme(axis.title.x=element_blank(),
-          axis.text.x=element_blank())+
-    theme(legend.title.align=0.5,
-          legend.position="bottom")+
-    scale_fill_manual(values=color_filling)
+  bar_plot = ggplot(data=dat2) +
+    geom_bar(aes(x = .data[["x"]], y = .data[["y"]], fill = .data[["fct"]]), stat="identity", width=offset_val) +
+    xlim(m_min-offset_val, m_max+offset_val) +
+    ylab("OR") +
+    geom_line(data = dat3, aes(x = .data[["x"]], y = .data[["y"]]), linetype="dashed", linewidth=0.5) +
+    geom_point(data = dat3, aes(x = .data[["x"]], y = .data[["y"]]), shape=1) +
+    guides(fill=guide_legend(title="Size Effect")) +
+    theme_minimal() +
+    theme(axis.title.x = element_blank(), axis.text.x = element_blank()) +
+    theme(legend.title.align = 0.5, legend.position = "bottom") +
+    scale_fill_manual(values = color_filling)
 
-  box_plot = ggplot(data.frame(values), aes(x=values, y=""))+
-    geom_boxplot(notch=TRUE)+
-    geom_jitter()+
-    xlim(m_min-offset_val, m_max+offset_val)+
-    xlab(var_name)+
-    ylab("Boxplot")+
+  box_plot = ggplot(data.frame(values), aes(x = .data[["values"]], y = "")) +
+    geom_boxplot(notch = TRUE) +
+    geom_jitter() +
+    xlim(m_min-offset_val, m_max+offset_val) +
+    xlab(var_name) +
+    ylab("Boxplot") +
     theme_minimal()
 
   sbs_plot = ggarrange(bar_plot, box_plot, ncol=1, nrow=2,
