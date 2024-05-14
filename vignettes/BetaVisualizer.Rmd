@@ -25,10 +25,6 @@ knitr::opts_chunk$set(
 # LIBRARIES
 
 ```{r, echo=TRUE, include=TRUE,  warning=FALSE, message=FALSE}
-
-# library(devtools)
-# devtools::install_github("vadimtyuryaev/RegrCoeffsExplorer", ref = "main")
-
 library(RegrCoeffsExplorer)
 library(gridExtra)
 library(glmnet)
@@ -38,7 +34,6 @@ library(faraway)
 library(MASS)
 library(psych)
 library(ggplot2)
-
 ```
 
 # EXAMPLES
@@ -58,7 +53,7 @@ visualization tool to the mtcars dataset.
 df_mtcars=as.data.frame(mtcars)
 
 df_mtcars[c("cyl","vs","am","gear")] =
-  lapply(df_mtcars[c("cyl","vs","am","gear")] , factor)                         # convert into factor variables
+  lapply(df_mtcars[c("cyl","vs","am","gear")] , factor)                         # convert to factor
 
 head(df_mtcars)
 
@@ -67,6 +62,7 @@ lm_object=lm(mpg~cyl+hp+wt+disp+vs+am+carb,data=df_mtcars)
 summary(lm_object)
 
 ```
+
 ### 1.2 Default Side-by-Side Plots
 
 ```{r,fig.height=6,fig.width=12, warning=F}
@@ -84,11 +80,11 @@ by default. Nonetheless, a paradigm shift is observed for several other
 variables when the analysis transitions from a per-unit change perspective 
 (as depicted in the left plot) to an examination of variations between 
 the Q1 and Q3 quartiles (illustrated in the right plot). Under this new 
-analytical lens, displacement and horsepower emerge as the third and second most
-influential factors, respectively. This shift in variable significance can be
-attributed to the fact that the differences in displacement and horsepower among 
-the majority of vehicles do not typically equate to  a mere 1 cubic inch or 
-1 horsepower. Consequently, this phenomenon underscores the criticality of 
+analytical lens, `displacement` and `horsepower` emerge as the third and second
+most influential factors, respectively. This shift in variable significance can
+be attributed to the fact that the differences in displacement and horsepower
+among the majority of vehicles do not typically equate to  a mere 1 cubic inch
+or 1 horsepower. Consequently, this phenomenon underscores the criticality of 
 considering the distribution of variables in the interpretation of regression 
 outcomes, as reliance on per-unit interpretations may lead to misconceptions.
 
@@ -144,9 +140,15 @@ vis_reg(lm_object)$"PerUnitVis"+
   theme(plot.title = element_text(hjust = 0.5))                                 # place title in the center
  
 ```
+
 ## 2. GLM object
 
-### 2.1 GLM object
+We will employ the High School and Beyond dataset (`hsb`) to visualize the odds
+of selecting General, Academic Preparatory, or Vocational/Technical high school 
+program. This analysis will be based on predictors such as sex, race, 
+socioeconomic status and scores on several subjects.
+
+### 2.1 Data and fitted object
 
 ```{r}
 
@@ -160,6 +162,7 @@ glm_object=glm(
 summary(glm_object)
 
 ```
+
 ### 2.2 Default side-by-Side plot, CIs and 99% confidence interval, 
 
 ```{r, fig.height=6,fig.width=12, warning=F}
@@ -175,9 +178,9 @@ grid.arrange(vis_reg(
 
 Upon examination of the regression coefficients derived from the empirical
 data distribution for a change between Q1 and Q3  for continuous independent 
-variables, it is evident that the 'math score' variable exerts the 
+variables, it is evident that the `math score` variable exerts the 
 highest impact on the odds of selecting an academic program as shown on the
-right plot). Concurrently, the variable 'male gender' which predominates 
+right plot. Concurrently, the variable `male gender` which predominates 
 in influence as depicted in the left plot, transitions to the position of 
 minimal positive impact within this context.
 
@@ -192,9 +195,9 @@ sales price using a data set from 93 Cars on Sale in the USA in 1993.
 
 df_glmnet=data.frame(Cars93)
 
-df_glmnet[sample(dim(df_glmnet)[1], 5), ]                                       # examine 5 randomly selected rows
+df_glmnet[sample(dim(df_glmnet)[1], 5), ] # examine 5 randomly selected rows
 
-levels(df_glmnet$Origin)                                                        # check level attributes of a factor variable
+levels(df_glmnet$Origin)                                                        # check level attributes
 
 df_glmnet=df_glmnet %>% mutate(MPG.avg = (MPG.city + MPG.highway) / 2)          # calculate average MPG
 
@@ -218,11 +221,11 @@ x_lasso=model.matrix(
                      )
                                                    
 
-x_lasso = x_lasso[, -1]                                                         # remove intercept as glmnet adds it
+x_lasso = x_lasso[, -1]                                                         # remove intercept
 
 ndim_lasso=dim(x_lasso)[1]
 
-cv_model_lasso = cv.glmnet(x_lasso, y_lasso, family="gaussian", alpha=1)        # alpha=1 specifies LASSO regression
+cv_model_lasso = cv.glmnet(x_lasso, y_lasso, family="gaussian", alpha=1)        # LASSO regression
 
 # extract value of lambda that gives minimum mean cross-validated error
 best_lambda_lasso = cv_model_lasso$lambda.min                                   
@@ -237,7 +240,7 @@ coefficients(best_model_lasso)
 
 ```
 
-The LASSO regression has reduced the coefficient for the 'weight' variable to
+The LASSO regression has reduced the coefficient for the `weight` variable to
 zero, likely due to its high correlation with other variables included 
 in the analysis.
 
@@ -269,7 +272,7 @@ grid.arrange(vis_reg(best_model_lasso,eff_size_diff=c(1,3),
 
 ```
 
-Note that the 'Weight' variable is retained and remains consistent ($0$) 
+Note that the `Weight` variable is retained and remains consistent $0$
 across both plots. Additionally, the variation in regression coefficients and
 their interpretation align with the paradigm change discussed previously. 
 
@@ -305,7 +308,7 @@ grid.arrange(plt_3)
 
 Note that coefficients with absolute values exceeding those specified in the
 ylim vector will not be visualized. For instance, setting ylim=c(-2,2) for the 
-left plot would result in the omission of the 'Originnon-USA' coefficient 
+left plot would result in the omission of the `Originnon-USA` coefficient 
 from the visualization.
 
 ### 3.6 Post Selection Inference
@@ -393,7 +396,7 @@ unit, such as the disparity between the first (Q1) and third (Q3) quartiles
 within the data distribution?
 
 It is crucial to acknowledge that the data distribution may not always support a
-per-unit interpretation, as exemplified by the 'age' variable 
+per-unit interpretation, as exemplified by the `age` variable 
 within our dataset. Consequently, when engaging in calculations that encompass 
 changes across quartiles, it is advisable to employ rounding strategies 
 (either floor or ceiling functions) prior to data input. This approach 
@@ -402,11 +405,11 @@ age discrepancies (e.g., 1 year) against those pertaining to more substantial
 differences (e.g., 10 years).
 
 Absence of rounding can lead to nuanced interpretations. Consider, for instance, 
-the interquartile range for the 'age' variable, which is calculated 
+the interquartile range for the `age` variable, which is calculated 
 as Q3 - Q1 (52.08 - 42.50 = 9.58 years). In such scenarios, the OR derived
-from the Q3 to Q1 variation in 'age' essentially compares the odds of mortality
+from the Q3 to Q1 variation in `age` essentially compares the odds of mortality
 among individuals with an age gap of 9.58 years, a differential that may not 
-intuitively serve as the most illustrative measure. In the 'vis_reg()' function,
+intuitively serve as the most illustrative measure. In the `vis_reg()` function,
 the __'round_func'__ parameter allows for the specification of rounding the 
 calculated differences either upwards or downwards to the nearest integer, 
 thus providing a more instinctual explication.
@@ -516,8 +519,9 @@ out$ci=t(scale(t(out$ci),FALSE,pf[out$vars]))
 out
 
 ```
+
 Note that confidence intervals for the first two variables contain the __true__
-values and do not encompass the estimated coefficients. 
+values and **do not encompass** the estimated coefficients. 
 
 ### 3.6.7 GLMNET with penalty factor and CIs
 
@@ -562,10 +566,10 @@ all.equal(x_heart_test_3,x_heart_orig)
 
 The __vis_reg()__ function operates by extracting the necessary information 
 from the provided object. However, in the context of generating CIS with penalty 
-factors for 'fixedLassoInf' type objects, a dual transformation, as 
+factors for `fixedLassoInf` type objects, a dual transformation, as 
 illustrated previously, is necessary. Direct reconstruction from the passed 
 object is not possible in such instances. Therefore, to obtain CIs
-for 'fixedLassoInf' objects that have been fitted using penalty factors, it is
+for `fixedLassoInf` objects that have been fitted using penalty factors, it is
 essential to supply the original, non-transformed data. 
 
 ### 3.6.9 Post selection inference with CIs and penalty factors
@@ -580,6 +584,7 @@ grid.arrange(vis_reg(out_heart_res, CI=T, glmnet_fct_var=c("surgery1"),
                      eff_size_diff=c(2,5))$"SidebySide")
 
 ```
+
 It is important to observe that when the computed effective size difference is
 below 1, such would have been the case if we utilized default Q3 - Q1 difference
 which is 7.217 - 6.519 = 0.698 ( __summary(heart_df_filtered$sqrt.age)__ ), 
