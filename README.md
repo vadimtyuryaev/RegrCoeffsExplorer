@@ -36,11 +36,11 @@ You can install the current version of `RegrCoeffsExplorer` from
 [GitHub](https://github.com/vadimtyuryaev/RegrCoeffsExplorer) with:
 
 ``` r
-# library(devtools)
-# 
-# devtools::install_github("vadimtyuryaev/RegrCoeffsExplorer",
-#                          ref = "main",
-#                          build_vignettes = TRUE)
+library(devtools)
+
+devtools::install_github("vadimtyuryaev/RegrCoeffsExplorer",
+                         ref = "main",
+                         build_vignettes = TRUE)
 ```
 
 ## A Very Brief Recap on Logistic Regression
@@ -384,24 +384,15 @@ $$E[Y|\textbf{X}]=\frac{1}{1+exp(-\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_
 
 Let’s take the second order cross-partial derivative.
 
-Using the chain rule: $$
-\begin{split}
-\gamma_{12}^2 = \frac{\partial^2 E[Y|\textbf{X}]}{\partial x_1 \partial x_2} = \frac{\partial^2 g^{-1}(\eta)}{\partial x_1 \partial x_2} = \frac{\partial }{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial x_2} \right] = \\[2.5pt] =\frac{\partial}{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial \eta} \frac{\partial \eta}{ \partial x_2} \right] = \frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta)]
-\end{split}
-$$
+Using the chain rule:
+$$\gamma_{12}^2 = \frac{\partial^2 E[Y|\textbf{X}]}{\partial x_1 \partial x_2} = \frac{\partial^2 g^{-1}(\eta)}{\partial x_1 \partial x_2} = \frac{\partial }{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial x_2} \right] = \frac{\partial}{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial \eta} \frac{\partial \eta}{ \partial x_2} \right] = \frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta)]$$
 
-Utilizing the product rule followed by the chain rule: $$
-\begin{split}
-\frac{\partial}{\partial x_1} \left[(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta) \right] =\frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)]\dot{g}^{-1}(\eta) +  [(\beta_2+\beta_{12} x_1)]\frac{\partial}{\partial x_1}[\dot{g}^{-1}(\eta)] = \\[2.5pt] = \beta_{12} \dot{g}^{-1}(\eta)+(\beta_2+\beta_{12}x_1)(\beta_1+\beta_{12}x_2)\ddot{g}^{-1}(\eta)
-\end{split}
-$$
+Utilizing the product rule followed by the chain rule:
+$$\frac{\partial}{\partial x_1} \left[(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta) \right] =\frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)]\dot{g}^{-1}(\eta) +  [(\beta_2+\beta_{12} x_1)]\frac{\partial}{\partial x_1}[\dot{g}^{-1}(\eta)] = \beta_{12} \dot{g}^{-1}(\eta)+(\beta_2+\beta_{12}x_1)(\beta_1+\beta_{12}x_2)\ddot{g}^{-1}(\eta)$$
 
-First and second derivative of the inverse link function are: $$
-\begin{split}
-\dot{g}^{-1}(\eta)=\frac{exp(\eta)}{(1+exp(\eta))^2} \\[5pt] \ddot{g}^{-1}(\eta)=\frac{exp(\eta)(1-exp(\eta))}{(1+exp(\eta))^3}
-\end{split}
-$$
-
+First and second derivative of the inverse link function are:
+$$\dot{g}^{-1}(\eta)=\frac{exp(\eta)}{(1+exp(\eta))^2}$$
+$$\ddot{g}^{-1}(\eta)=\frac{exp(\eta)(1-exp(\eta))}{(1+exp(\eta))^3}$$
 Therefore:
 
 $$\gamma_{12}^2=\beta_{12} \frac{e^{\eta}}{(1+e^{\eta})^2}+(\beta_1+\beta_{12}x_2)(\beta_2+\beta_{12}x_1)\frac{e^{\eta}(1-e^{\eta})}{(1+e^{\eta})^3}$$
