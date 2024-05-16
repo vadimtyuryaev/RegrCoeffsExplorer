@@ -75,10 +75,9 @@ $$\log{OR}=\log{\frac{\pi(\mathbf{X})}{1-\pi(\mathbf{X})}} =\beta_{0}+\beta_{1}X
 
 Change in log odds when one predictor variable ($X_{1}$) increases by
 one unit, while **all other variables remain unchanged**:
-$$\begin{gather}
-\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1+1}})}{P(Y=0|\mathbf{X_{X_1=X_1+1}})}} -\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1}})}{P(Y=0|\mathbf{X_{X_1=X_1}})}} = \\\\
-= \beta_{0}+\beta_{1}(X_{1}+1)+\ldots+\beta_{n}X_{n} - (\beta_{0}+\beta_{1}X_{1}+\ldots+\beta_{n}X_{n}) = \beta_{1}
-\end{gather}$$
+$$\begin{align} 
+\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1+1}})}{P(Y=0|\mathbf{X_{X_1=X_1+1}})}} -\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1}})}{P(Y=0|\mathbf{X_{X_1=X_1}})}}&= \\ = \beta_{0}+\beta_{1}(X_{1}+1)+\ldots+\beta_{n}X_{n} - (\beta_{0}+\beta_{1}X_{1}+\ldots+\beta_{n}X_{n}) &=\beta_{1} 
+\end{align}$$
 
 Therefore, coefficient $\beta_{1}$ shows expected change in the Log Odds
 for a one unit increase in $X_1$. Thus, expected change in the Odds
