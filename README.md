@@ -7,20 +7,21 @@
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)
+[![R-CMD-check](https://github.com/r-lib/rcmdcheck/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/rcmdcheck/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 *Always present effect sizes for primary outcomes* (Wilkinson 1999).
 
 *The size of the regression weight depends on the other predictor
-variables included in the equation and is,therefore, prone to change
+variables included in the equation and is, therefore, prone to change
 across situations involving different combinations of predictors*
 (Dunlap and Landis 1998).
 
 *Any interpretations of weights must be considered context-specific*
 (Thompson 1999).
 
-*It is imperative to exercise diligence in the dissemination of complex
-information derived from sophisticated statistical models* (Chen 2003).
+*Dissemination of complex information derived from sophisticated
+statistical models requires diligence* (Chen 2003).
 
 The **goal** of `RegrCoeffsExplorer` is to **enhance the
 interpretation** of regression results by providing **visualizations**
@@ -76,10 +77,10 @@ Change in log odds when one predictor variable ($X_{1}$) increases by
 one unit, while **all other variables remain unchanged**:
 
 $$
-\begin{split}
-\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1+1}})}{P(Y=0|\mathbf{X_{X_1=X_1+1}})}} -\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1}})}{P(Y=0|\mathbf{X_{X_1=X_1}})}} = \\\\[2.5pt] 
+\begin{gather}
+\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1+1}})}{P(Y=0|\mathbf{X_{X_1=X_1+1}})}} -\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1}})}{P(Y=0|\mathbf{X_{X_1=X_1}})}} = \\[5pt]
 = \beta_{0}+\beta_{1}(X_{1}+1)+\ldots+\beta_{n}X_{n} - (\beta_{0}+\beta_{1}X_{1}+\ldots+\beta_{n}X_{n}) = \beta_{1}
-\end{split}
+\end{gather}
 $$
 
 Therefore, coefficient $\beta_{1}$ shows expected change in the Log Odds
@@ -158,9 +159,9 @@ grid.arrange(vis_reg(glm_model, CI = TRUE, intercept = TRUE,
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-Please note that upon consideration of the empirical distribution of
-data, particularly concerning the influence on the response variable,
-`y`, attributable to the interquartile change (Q3-Q1) in the dependent
+Note that upon consideration of the empirical distribution of data,
+particularly concerning the influence on the response variable, `y`,
+attributable to the interquartile change (Q3-Q1) in the dependent
 variables, there is a discernible enlargement in the magnitudes of
 coefficients `X2` and `X4`.
 
@@ -204,13 +205,13 @@ exp(summary(glm_model)$coefficients[,1])
 ```
 
 The coefficients for `X1` through `X4` represent the change in the OR
-for a **one-unit shift** in these coefficients, while the coefficient
-for `Factor_var1` signifies the variation in OR resulting from a
-transition from the reference level of 0 to a level 1 in the factor
-variable. At first glance, it may seem that the factor variable exerts
-the most significant impact on the odds ratio.Yet, this interpretation
-can often be deceptive, as it fails to take into account the
-distribution of empirical data.
+for a **one-unit shift** in each respective coefficient, while the
+coefficient for `Factor_var1` signifies the variation in OR resulting
+from a transition from the reference level of 0 to a level 1 in the
+factor variable. At first glance, it may seem that the factor variable
+exerts the most significant impact on the odds ratio.Yet, this
+interpretation can often be deceptive, as it fails to take into account
+the distribution of empirical data.
 
 ### Real data differences
 
@@ -265,7 +266,7 @@ median (Q2), the third quartile (Q3), and the maximum.The bottom plot
 depicts a boxplot with a notch to display a confidence interval around
 the median and jitters to add random noise to data points preventing
 overlap and revealing the underlying data distribution more clearly.
-substantial changes in the OR progressing alone the empirical data as
+Substantial changes in the OR progressing alone the empirical data are
 clearly observed.
 
 ### Customize plots - 1/2
@@ -284,7 +285,10 @@ vis_reg(glm_model, CI = TRUE, intercept = TRUE,
   theme(plot.title = element_text(hjust = 0.5))   
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" /> As
+observed, when returning individual plots, the resulting entities are
+`ggplot` objects. Consequently, any operation that is compatible with
+ggplot can be applied to these plots using the `+` operator.
 
 ### Customize plots - 2/2
 
@@ -308,16 +312,16 @@ below.
 vignette("BetaVisualizer", 
          package = "RegrCoeffsExplorer")                                        # To visualize realized effect size 
 
-
 vignette("OddsRatioVisualizer",                                                 # To visualize Odds Ratio
+         
          package = "RegrCoeffsExplorer")
 ```
 
-## Estimation of Confidence Intervals for Objects Fitted Using LASSO Regression
+## A note on estimation of Confidence Intervals for objects fitted using regularized regression
 
 It is imperative to to gain a comprehensive understanding of the
-post-selection inference rationale and methodologies (Hastie,
-Tibshirani, and Wainwright 2015) prior to the generation and graphical
+post-selection inference (Hastie, Tibshirani, and Wainwright 2015)
+rationale and methodologies prior to the generation and graphical
 representation of confidence intervals for objects fitted via the
 Elastic-Net Regularized Generalized Linear Models. Please, kindly
 consult the hyperlinks below containing the designated literature and
@@ -330,10 +334,10 @@ the `BetaVisualizer` vignette.
 3.  [Tools for Post-Selection
     Inference](https://cran.r-project.org/web/packages/selectiveInference/selectiveInference.pdf)
 
-## A cautionary note on intepretation of interaction effects in Generalized Linear Models
+## A cautionary note on intepretation of interaction effects in Generalized Linear Models (GLM)
 
-A frequently misrepresented and misunderstood concept is that the
-coefficient for an interaction term in GLMs does not have a
+A frequently misrepresented and misunderstood concept is that
+coefficients for interaction terms in GLMs does not have a
 straightforward slope interpretation. This implies, among other
 considerations, that in models including interaction terms, the ORs
 derived from coefficients might not be meaningful (Chen 2003). Many
@@ -358,17 +362,17 @@ respect to $x_2$:
 $$\gamma_2 = \frac{\partial E[Y|\textbf{X}]}{\partial x_2} = \beta_2$$
 Therefore, $\beta_2$ is sufficient to quantify how much
 $E[Y|\textbf{X}]$ changes with respect to every one unit increase in
-$beta_2$, holding all other variables constant.
+$\beta_2$, holding all other variables constant.
 
 Now, take the second order cross-partial derivative of $E[Y|\textbf{X}]$
 with respect to both $x_1$ and $x_2$:
 $$\gamma_{12}^2 = \frac{\partial^2 E[Y| \textbf{X}]}{\partial x_1 \partial x_2} = \beta_{12}$$
-The same intuition as above holds. The interaction term $\gamma_{12}^2$
+Similar intuition as above holds. The interaction term $\beta_{12}$
 shows how effect of $x_1$ on $E[Y|\textbf{X}]$ changes for every one
 unit increase in $x_2$ and vice versa.
 
 Now consider a logistic regression model with a non-linear link function
-$g(\cdot)$, two continuous predictors and an interaction terms:
+$g(\cdot)$, two continuous predictors and an interaction term:
 
 $$g(E[Y|\textbf{X}])=\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2$$
 
@@ -384,32 +388,37 @@ $$E[Y|\textbf{X}]=\frac{1}{1+exp(-\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_
 
 Let’s take the second order cross-partial derivative.
 
-Using the chain rule:
-$$\gamma_{12}^2 = \frac{\partial^2 E[Y|\textbf{X}]}{\partial x_1 \partial x_2} = \frac{\partial^2 g^{-1}(\eta)}{\partial x_1 \partial x_2} = \frac{\partial }{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial x_2} \right] = \frac{\partial}{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial \eta} \frac{\partial \eta}{ \partial x_2} \right] = \frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta)]$$
+Using the chain rule: $$
+\begin{gather}
+\gamma_{12}^2 = \frac{\partial^2 E[Y|\textbf{X}]}{\partial x_1 \partial x_2} = \frac{\partial^2 g^{-1}(\eta)}{\partial x_1 \partial x_2} = \frac{\partial }{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial x_2} \right] = \\[2.5pt] = \frac{\partial}{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial \eta} \frac{\partial \eta}{ \partial x_2} \right] = \frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta)]
+\end{gather}
+$$
 
-Utilizing the product rule followed by the chain rule:
-$$\frac{\partial}{\partial x_1} \left[(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta) \right] =\frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)]\dot{g}^{-1}(\eta) +  [(\beta_2+\beta_{12} x_1)]\frac{\partial}{\partial x_1}[\dot{g}^{-1}(\eta)] = \beta_{12} \dot{g}^{-1}(\eta)+(\beta_2+\beta_{12}x_1)(\beta_1+\beta_{12}x_2)\ddot{g}^{-1}(\eta)$$
+Utilizing the product rule followed by the chain rule: $$
+\begin{gather}
+\frac{\partial}{\partial x_1} \left[(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta) \right] =\frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)]\dot{g}^{-1}(\eta) +  [(\beta_2+\beta_{12} x_1)]\frac{\partial}{\partial x_1}[\dot{g}^{-1}(\eta)] = \\[2.5pt] = \beta_{12} \dot{g}^{-1}(\eta)+(\beta_2+\beta_{12}x_1)(\beta_1+\beta_{12}x_2)\ddot{g}^{-1}(\eta)
+\end{gather}
+$$
 
 First and second derivative of the inverse link function are:
 $$\dot{g}^{-1}(\eta)=\frac{exp(\eta)}{(1+exp(\eta))^2}$$
 $$\ddot{g}^{-1}(\eta)=\frac{exp(\eta)(1-exp(\eta))}{(1+exp(\eta))^3}$$
 Therefore:
-
 $$\gamma_{12}^2=\beta_{12} \frac{e^{\eta}}{(1+e^{\eta})^2}+(\beta_1+\beta_{12}x_2)(\beta_2+\beta_{12}x_1)\frac{e^{\eta}(1-e^{\eta})}{(1+e^{\eta})^3}$$
 Calculation above show that an interaction term in GLMs depends on all
 predictors within the model.This implies that the coefficient
-$\beta_{12}$ alone does not adequately describe how the effect of $x_1$
-on $E[Y|\textbf{X}]$ changes for each one-unit increase in $x_2$, and
-vice versa.
+$\beta_{12}$ alone does not adequately describe how the effect of
+variable $x_1$ on $E[Y|\textbf{X}]$ changes for each one-unit increase
+in the variable $x_2$, and vice versa.
 
 ### Computational perspectives on interaction terms in Generalized Linear Models
 
-We will sample two moderately correlated predictors from a bivariate
-normal distribution and use them to simulate a logistic regression
-model. By fitting the model, we will obtain the estimated coefficients
-and calculate the values of $\hat{\gamma}^2_{12}$. Subsequently, we will
-visualize the slopes of $\hat{E}[Y|\mathbf{X}]$ calculated for two
-combinations of `X1b` and `X2b`.
+We sample two moderately correlated predictors `X1b` and `X2b` from a
+standard bivariate normal distribution and use them to simulate a
+logistic regression model. By fitting the model, we obtain the estimated
+coefficients and calculate the values of $\hat{\gamma}^2_{12}$.
+Subsequently, we visualize the slopes of $\hat{E}[Y|\mathbf{X}]$
+calculated for two combinations of `X1b` and `X2b`.
 
 #### Sample two predictors `X1b` and `X2b` from a standard bivariate normal distribution:
 
@@ -642,7 +651,7 @@ General Psychology* 125: 397–407.
 
 Hastie, Trevor, Robert Tibshirani, and Martin Wainwright. 2015.
 *Statistical Learning with Sparsity: The Lasso and Generalizations*.
-Chapman & Hall/CRC.
+Chapman & Hall/CRC. <https://www.ime.unicamp.br/~dias/SLS.pdf>.
 
 </div>
 
@@ -660,6 +669,7 @@ Nonlinear Probabilities and Counts.” *Multivariate Behavioral Research*
 McCullagh, P., and J. A. Nelder. 1989. *Generalized Linear Models,
 Second Edition*. Chapman and Hall/CRC Monographs on Statistics and
 Applied Probability Series. Chapman & Hall.
+<https://www.utstat.toronto.edu/~brunner/oldclass/2201s11/readings/glmbook.pdf>.
 
 </div>
 
@@ -675,7 +685,7 @@ Pennsylvania State University. 2024. “Bivariate Normal Distribution.”
 Thompson, B. 1999. “Five Methodology Errors in Educational
 Research:apantheon of Statistical Significance and Other Faux Pas.”
 *Advances in Social Science Methodology* 5: 23–86.
-https://doi.org/<https://files.eric.ed.gov/fulltext/ED419023.pdf>.
+<https://files.eric.ed.gov/fulltext/ED419023.pdf>.
 
 </div>
 

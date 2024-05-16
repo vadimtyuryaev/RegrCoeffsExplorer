@@ -43,8 +43,8 @@ library(ggplot2)
 ### 1.1 Data
 
 To assess the impact of automobile design and performance characteristics on 
-fuel efficiency, measured in miles per gallon (MPG), we will apply our data
-visualization tool to the mtcars dataset. 
+fuel efficiency, measured in miles per gallon (`MPG`), we apply our data
+visualization tool to the `mtcars` dataset. 
 
 ```{r}
 
@@ -53,7 +53,7 @@ visualization tool to the mtcars dataset.
 df_mtcars=as.data.frame(mtcars)
 
 df_mtcars[c("cyl","vs","am","gear")] =
-  lapply(df_mtcars[c("cyl","vs","am","gear")] , factor)                         # convert to factor
+  lapply(df_mtcars[c("cyl","vs","am","gear")] , factor) # convert to factor
 
 head(df_mtcars)
 
@@ -63,7 +63,7 @@ summary(lm_object)
 
 ```
 
-### 1.2 Default Side-by-Side Plots
+### 1.2 Default side-by-side plots
 
 ```{r,fig.height=6,fig.width=12, warning=F}
 
@@ -72,25 +72,26 @@ grid.arrange(vis_reg(lm_object)$"SidebySide")
 ```
 
 It is imperative to acknowledge that variables such as engine configuration 
-(specifically, the straight engine) and vehicle weight influence fuel efficiency
-the most, with effects of these two variables remaining consistent when 
+(specifically, the straight engine `vs1`) and vehicle `weight` influence fuel 
+efficiency the most, with the effect of `vs` variable remaining consistent when 
 examining changes in coefficients of continuous variables occurring within 
 empirical data spanning from the first (Q1) to the third (Q3) quartiles 
 by default. Nonetheless, a paradigm shift is observed for several other
 variables when the analysis transitions from a per-unit change perspective 
 (as depicted in the left plot) to an examination of variations between 
 the Q1 and Q3 quartiles (illustrated in the right plot). Under this new 
-analytical lens, `displacement` and `horsepower` emerge as the third and second
-most influential factors, respectively. This shift in variable significance can
-be attributed to the fact that the differences in displacement and horsepower
-among the majority of vehicles do not typically equate to  a mere 1 cubic inch
-or 1 horsepower. Consequently, this phenomenon underscores the criticality of 
-considering the distribution of variables in the interpretation of regression 
-outcomes, as reliance on per-unit interpretations may lead to misconceptions.
+analytical lens, `displacement` and `horsepower` emerge as the third positive and
+first negative most influential factors, respectively. This shift in variable 
+significance can be attributed to the fact that the differences in displacement 
+and horsepower among the majority of vehicles do not typically equate to  a mere
+1 cubic inch or 1 horsepower. Consequently, this phenomenon underscores the
+criticality of considering the distribution of variables in the interpretation 
+of regression outcomes, as reliance on per-unit interpretations may lead to 
+misconceptions.
 
 ### 1.3 Visualizing per-unit change together with an intercept
 
-```{r, fig.height=6,fig.width=8, warning=F}
+```{r, fig.height=6,fig.width=7, warning=F}
 
 vis_reg(lm_object, intercept=T)$"PerUnitVis"
 
@@ -98,13 +99,13 @@ vis_reg(lm_object, intercept=T)$"PerUnitVis"
 
 ### 1.4  Adding Confidence Intervals (CIs)
 
-```{r, fig.height=6,fig.width=8, warning=F}
+```{r, fig.height=6,fig.width=7, warning=F}
 
 vis_reg(lm_object, intercept=T, CI=T)$"PerUnitVis"
 
 ```
 
-### 1.4 Customizing pallete and title, modifying default effect size calculations
+### 1.4 Customizing pallete, title, and modifying default realized effect size calculations
 
 ```{r, fig.height=6,fig.width=12, warning=F}
 
@@ -122,31 +123,30 @@ grid.arrange(vis_reg(
 
 ### 1.5 Customizing individual graphs 
 
-```{r, fig.height=6,fig.width=8, warning=F}
+```{r, fig.height=6,fig.width=7, warning=F}
 
 # obtain coefficients for vs and wt
 vline1=lm_object$coefficients['vs1'][[1]]
 vline2=lm_object$coefficients['wt'][[1]]
 
 vis_reg(lm_object)$"PerUnitVis"+
-  geom_hline(yintercept=vline1, linetype="dashed", color = "blue", size=1)+     # add a vertical line
+  geom_hline(yintercept=vline1, linetype="dashed", color = "blue", size=1)+   # add a vertical line
   geom_hline(yintercept=vline2, linetype="dashed", color = "orange", size=1)+
   ggtitle("Visualization of Regression Results (per unit change)")+
-  ylim(-5,5)+                                                                   # note the coordinate flip
+  ylim(-5,5)+                                                                 # note the coordinate flip
   xlab("aspects")+
   ylab("coefficients")+
   theme_bw()+
-  scale_fill_manual(values = c("black","pink" ))+                               # change mappings 
-  theme(plot.title = element_text(hjust = 0.5))                                 # place title in the center
+  scale_fill_manual(values = c("black","pink" ))+                             # change mappings 
+  theme(plot.title = element_text(hjust = 0.5))                               # place title in the center
  
 ```
 
 ## 2. GLM object
 
-We will employ the High School and Beyond dataset (`hsb`) to visualize the odds
-of selecting General, Academic Preparatory, or Vocational/Technical high school 
-program. This analysis will be based on predictors such as sex, race, 
-socioeconomic status and scores on several subjects.
+We employ the High School and Beyond dataset (`hsb`) to visualize the odds
+of selecting the `Academic` high school program. This analysis is based on 
+predictors such as sex, race, socioeconomic status and scores on several subjects.
 
 ### 2.1 Data and fitted object
 
@@ -163,7 +163,7 @@ summary(glm_object)
 
 ```
 
-### 2.2 Default side-by-Side plot, CIs and 99% confidence interval, 
+### 2.2 Default side-by-side plots, CIs and 99% confidence interval 
 
 ```{r, fig.height=6,fig.width=12, warning=F}
 
@@ -178,18 +178,18 @@ grid.arrange(vis_reg(
 
 Upon examination of the regression coefficients derived from the empirical
 data distribution for a change between Q1 and Q3  for continuous independent 
-variables, it is evident that the `math score` variable exerts the 
+variables, it is evident that the `math` score variable exerts the 
 highest impact on the odds of selecting an academic program as shown on the
-right plot. Concurrently, the variable `male gender` which predominates 
+right plot. Concurrently, the variable `gendermale` which predominates 
 in influence as depicted in the left plot, transitions to the position of 
 minimal positive impact within this context.
 
-## 3 GLMNET object
+## 3 GLMNET model objects
 
 ### 3.1. Data
 
-We will use LASSO regression to understand how car characteristics influence 
-sales price using a data set from 93 Cars on Sale in the USA in 1993. 
+We utilize the LASSO regression to understand how various car characteristics 
+influence sales price using a data set from 93 Cars on Sale in the USA in 1993. 
 
 ```{r}
 
@@ -205,7 +205,7 @@ df_glmnet=df_glmnet %>% mutate(MPG.avg = (MPG.city + MPG.highway) / 2)          
 
 ### 3.2 LASSO - data preparation and model 
 
-```{r, fig.height=6,fig.width=12, warning=F}
+```{r, fig.height=6,fig.width=7, warning=F}
 
 y_lasso=df_glmnet$Price
 
@@ -240,13 +240,25 @@ coefficients(best_model_lasso)
 
 ```
 
+Note that on Lasso regression plots two values of regularization parameter
+$\lambda$ are indicated: $\lambda_{min}$ and $\lambda_{1se}$. What is the 
+difference? The first, $\lambda_{min}$is the value that minimizes the
+cross-validated error, leading to a model that fits the data with the 
+lowest prediction error, but with a potential risk of overfitting. 
+Conversely,$\lambda_{1se}$. is a more conservative choice, representing the
+largest $\lambda$ within one standard error of the minimum error, resulting in
+a simpler, more robust model that is less likely to overfit while maintaining 
+a prediction error close to the minimum. For our analysis we select $\lambda_{min}$. 
+
 The LASSO regression has reduced the coefficient for the `weight` variable to
 zero, likely due to its high correlation with other variables included 
-in the analysis.
+in the analysis. 
 
-### 3.3 Check correlations for numeric variables of interest
 
-```{r,fig.height=9,fig.width=12, warning=F}
+
+### 3.3 Checking correlations for numeric variables of interest
+
+```{r,fig.height=8,fig.width=8, warning=F}
 
 df_glmnet_num=df_glmnet%>%select_if(function(x) is.numeric(x))                  
 
@@ -255,24 +267,24 @@ cols_to_select = c("MPG.avg","Horsepower","RPM","Wheelbase","Passengers",
 
 df_glmnet_num=df_glmnet_num %>%select(all_of(cols_to_select))                 
 
-corPlot(df_glmnet_num,xlas=2, cex=1.1)
+corPlot(df_glmnet_num,xlas=2)
 
 ```
 
 The correlation matrix substantiates our hypothesis, revealing a high 
 correlation between weight and multiple variables incorporated in the model.
 
-### 3.4 Default LASSO plots with effect size calculated for Q2-min difference
+### 3.4 Default LASSO plots with custom realized effect size
 
 ```{r, fig.height=6,fig.width=12, warning=F}
 
-grid.arrange(vis_reg(best_model_lasso,eff_size_diff=c(1,3), 
-                     glmnet_fct_var="Originnon-USA")$"SidebySide")              # note the naming pattern for categorical variables
+grid.arrange(vis_reg(best_model_lasso,eff_size_diff=c(1,3),         # Q2 - minimum
+                     glmnet_fct_var="Originnon-USA")$"SidebySide")  # note the naming pattern for categorical variables
     
 
 ```
 
-Note that the `Weight` variable is retained and remains consistent $0$
+Note that the `Weight` variable is retained and remains consistently equal to $0$
 across both plots. Additionally, the variation in regression coefficients and
 their interpretation align with the paradigm change discussed previously. 
 
@@ -307,7 +319,7 @@ grid.arrange(plt_3)
 ```
 
 Note that coefficients with absolute values exceeding those specified in the
-ylim vector will not be visualized. For instance, setting ylim=c(-2,2) for the 
+`ylim` vector will not be visualized. For instance, setting `ylim`=c(-2,2) for the 
 left plot would result in the omission of the `Originnon-USA` coefficient 
 from the visualization.
 
@@ -315,8 +327,10 @@ from the visualization.
 
 ### 3.6.1 Data
 
-We will employ the Stanford Heart Transplant data to demonstrate the 
-construction of CIs for objects of the glmnet class.
+We employ the Stanford Heart Transplant data (`jasa`) which bcontains detailed 
+records of heart transplant patients, including their survival times, status,
+and other clinical variables, used for survival analysis to demonstrate the
+construction of CIs for `glmnet` type objects. 
 
 ```{r}
 
@@ -388,12 +402,12 @@ heart_df_filtered$age%>%floor()%>%summary()
 
 In the realm of our visualization tool, two primary inquiries emerge:
 
-*How does the Odds Ratio (OR) change with a __unit__ increment in the variables 
+*How does the Odds Ratio (OR) change with a __unit increment__ in the variables 
 under scrutiny?
 
-*How does the OR vary in response to alterations exceeding a single 
-unit, such as the disparity between the first (Q1) and third (Q3) quartiles
-within the data distribution?
+*How does the OR vary in response to alterations _exceeding a single unit_, such
+as the disparity between the first (Q1) and third (Q3) quartiles within the data
+distribution?
 
 It is crucial to acknowledge that the data distribution may not always support a
 per-unit interpretation, as exemplified by the `age` variable 
@@ -410,7 +424,7 @@ as Q3 - Q1 (52.08 - 42.50 = 9.58 years). In such scenarios, the OR derived
 from the Q3 to Q1 variation in `age` essentially compares the odds of mortality
 among individuals with an age gap of 9.58 years, a differential that may not 
 intuitively serve as the most illustrative measure. In the `vis_reg()` function,
-the __'round_func'__ parameter allows for the specification of rounding the 
+the `round_func` parameter allows for the specification of rounding the 
 calculated differences either upwards or downwards to the nearest integer, 
 thus providing a more instinctual explication.
  
@@ -455,11 +469,11 @@ class(out_heart)
 
 Although the data input is centered and scaled, the coefficients and CIs are
 presented on the original scale. The package includes a function named
-__detransform__ that carries out the re-scaling and de-centering process for 
+`detransform` that carries out the re-scaling and de-centering process for 
 effective size difference calculations. Alternatively, consider rounding down
 or up before passing the data to the function. 
 
-### 3.6.5 A note on data scaling and centering ('glmnet')
+### 3.6.5 A note on data scaling and centering in relation to `glmnet` objects
 
 ```{r}
  
@@ -475,7 +489,8 @@ or up before passing the data to the function.
  all.equal(x_heart_orig,x_heart_reconstructed.2)
 
 ```
-### 3.6.6 LASSO with CIs
+
+### 3.6.6 LASSO regression with CIs and custom realized effect size
 
 ```{r,fig.height=6,fig.width=12, warning=F}
 
@@ -521,7 +536,7 @@ out
 ```
 
 Note that confidence intervals for the first two variables contain the __true__
-values and **do not encompass** the estimated coefficients. 
+values `c(3,2)` and **do not encompass** the estimated coefficients `c(3.987,2.911)`. 
 
 ### 3.6.7 GLMNET with penalty factor and CIs
 
@@ -549,7 +564,8 @@ out_heart_res$ci=t(scale(t(out_heart_res$ci),FALSE,pf_heart[out_heart_res$vars])
 out_heart_res
 
 ```
-### 3.6.8 A second note on data scaling and centering ('fixedLassoInf') 
+
+### 3.6.8 A second note on data scaling and centering in relation to `fixedLassoInf` objects
 
 ```{r,fig.height=6,fig.width=12, warning=F}
 
@@ -587,8 +603,8 @@ grid.arrange(vis_reg(out_heart_res, CI=T, glmnet_fct_var=c("surgery1"),
 
 It is important to observe that when the computed effective size difference is
 below 1, such would have been the case if we utilized default Q3 - Q1 difference
-which is 7.217 - 6.519 = 0.698 ( __summary(heart_df_filtered$sqrt.age)__ ), 
-the OR on the right plot would correspond to a change of less 
+which is 7.217 - 6.519 = 0.698 ( see `summary(heart_df_filtered$sqrt.age)` ), 
+the OR on the right plot would correspond to a change of **less** 
 than one unit. As a result, the numerical values presented on the right plot
 would be lower than those on the left plot. This outcome may appear
 counter intuitive at first glance.
