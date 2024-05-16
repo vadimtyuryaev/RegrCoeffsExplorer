@@ -80,12 +80,10 @@ $$\log{OR}=\log{\frac{\pi(\mathbf{X})}{1-\pi(\mathbf{X})}} =\beta_{0}+\beta_{1}X
 
 Change in log odds when one predictor variable ($X_{1}$) increases by one unit, 
 while **all other variables remain unchanged**:
-<div>
 $$\begin{gather}
-\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1+1}})}{P(Y=0|\mathbf{X_{X_1=X_1+1}})}} -\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1}})}{P(Y=0|\mathbf{X_{X_1=X_1}})}} = \\[5pt]
+\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1+1}})}{P(Y=0|\mathbf{X_{X_1=X_1+1}})}} -\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1}})}{P(Y=0|\mathbf{X_{X_1=X_1}})}} = \\
 = \beta_{0}+\beta_{1}(X_{1}+1)+\ldots+\beta_{n}X_{n} - (\beta_{0}+\beta_{1}X_{1}+\ldots+\beta_{n}X_{n}) = \beta_{1}
 \end{gather}$$
-</div>
 
 Therefore, coefficient $\beta_{1}$ shows expected change in the Log Odds for a
 one unit increase in $X_1$. Thus, expected change in the Odds Ratio is 
@@ -350,18 +348,14 @@ $$E[Y|\textbf{X}]=\frac{1}{1+exp(-\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_
 Let's take the second order cross-partial derivative.
 
 Using the chain rule:
-<div>
 $$\begin{gather}
-\gamma_{12}^2 = \frac{\partial^2 E[Y|\textbf{X}]}{\partial x_1 \partial x_2} = \frac{\partial^2 g^{-1}(\eta)}{\partial x_1 \partial x_2} = \frac{\partial }{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial x_2} \right] = \\[2.5pt] = \frac{\partial}{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial \eta} \frac{\partial \eta}{ \partial x_2} \right] = \frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta)]
+\gamma_{12}^2 = \frac{\partial^2 E[Y|\textbf{X}]}{\partial x_1 \partial x_2} = \frac{\partial^2 g^{-1}(\eta)}{\partial x_1 \partial x_2} = \frac{\partial }{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial x_2} \right] = \\ = \frac{\partial}{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial \eta} \frac{\partial \eta}{ \partial x_2} \right] = \frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta)]
 \end{gather}$$
-</div>
 
 Utilizing the product rule followed by the chain rule:
-<div>
 $$\begin{gather}
-\frac{\partial}{\partial x_1} \left[(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta) \right] =\frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)]\dot{g}^{-1}(\eta) +  [(\beta_2+\beta_{12} x_1)]\frac{\partial}{\partial x_1}[\dot{g}^{-1}(\eta)] = \\[2.5pt] = \beta_{12} \dot{g}^{-1}(\eta)+(\beta_2+\beta_{12}x_1)(\beta_1+\beta_{12}x_2)\ddot{g}^{-1}(\eta)
+\frac{\partial}{\partial x_1} \left[(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta) \right] =\frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)]\dot{g}^{-1}(\eta) +  [(\beta_2+\beta_{12} x_1)]\frac{\partial}{\partial x_1}[\dot{g}^{-1}(\eta)] = \\ = \beta_{12} \dot{g}^{-1}(\eta)+(\beta_2+\beta_{12}x_1)(\beta_1+\beta_{12}x_2)\ddot{g}^{-1}(\eta)
 \end{gather}$$
-</div>
 
 First and second derivative of the inverse link function are:
 $$\dot{g}^{-1}(\eta)=\frac{exp(\eta)}{(1+exp(\eta))^2}$$
