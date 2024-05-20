@@ -101,6 +101,7 @@ outcomes through a binomial sampling process.
 
 library(RegrCoeffsExplorer)
 library(gridExtra)
+#> Warning: package 'gridExtra' was built under R version 4.1.3
 
 # Set seed for reproducibility
 set.seed(1945)
@@ -170,6 +171,10 @@ summary(glm_model)
 #> glm(formula = y ~ X1 + X2 + X3 + X4 + Factor_var, family = binomial(link = "logit"), 
 #>     data = data.frame(y, X1, X2, X3, X4, Factor_var))
 #> 
+#> Deviance Residuals: 
+#>     Min       1Q   Median       3Q      Max  
+#> -2.8488  -0.7365   0.2621   0.7452   2.5295  
+#> 
 #> Coefficients:
 #>             Estimate Std. Error z value Pr(>|z|)    
 #> (Intercept) -1.12972    0.54095  -2.088   0.0368 *  
@@ -231,7 +236,7 @@ num_diffs_2_or_more
 ```
 
 None of the differences observed within the values of the variable `X2`
-equate to a single unit. Furthermore, in excess of 15$\%$ of these
+equate to a single unit. Furthermore, in excess of $15\%$ of these
 differences are equal or surpass a magnitude of two units.Therefore,
 when analyzing standard regression output displaying per-unit
 interpretations, we, in a sense, comment on difference that might not
@@ -435,6 +440,7 @@ $$\phi(x_1, x_2) = \frac{1}{2\pi \sigma_1 \sigma_2 \sqrt{1 - \rho^2}} \exp\left(
 
 # Load necessary library
 library(MASS)          # for sampling from a multivariate normal distribution
+#> Warning: package 'MASS' was built under R version 4.1.3
 library(ggplot2)
 library(reshape2)      # for melting data frames
 
@@ -490,6 +496,10 @@ summary(model)
 #> Call:
 #> glm(formula = Y ~ X1 + X2 + X1X2, family = binomial(link = "logit"), 
 #>     data = data)
+#> 
+#> Deviance Residuals: 
+#>     Min       1Q   Median       3Q      Max  
+#> -2.3659  -0.7483  -0.3268   0.7409   2.8590  
 #> 
 #> Coefficients:
 #>             Estimate Std. Error z value Pr(>|z|)    
@@ -558,9 +568,9 @@ ggplot(long_gamma_df, aes(x = X2_Quantile, y = GammaSquared)) +
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
-It should be noted that although the estimate $\hat{\beta}_{12}$ is
-positive, a significant number of the $\hat{\gamma}^2_{12}$ values are
-negative. The magnitude and sign of $\hat{\gamma}^2_{12}$ are contingent
+It should be noted that although the estimate ${\hat{\beta}_{12}}$ is
+positive, a significant number of the $\hat{\gamma}_{12}^2$ values are
+negative. The magnitude and sign of $\hat{\gamma}_{12}^2$ are contingent
 upon the specific combination of `X1b` and `X2b` variables utilized in
 the analysis.
 
