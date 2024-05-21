@@ -500,10 +500,10 @@ ggplot(long_gamma_df, aes(x = X2_Quantile, y = GammaSquared)) +
 
 ```
 
-Note that the estimate $\hat{\beta}_{12}$ is positive. Yet, significant number of
-the $\hat{\gamma}_{12}^2$ values are negative. Moreover, the magnitude and sign of
-$\hat{\gamma}_{12}^2$ are contingent upon the specific combination of `X1b` and
-`X2b` variables utilized in the analysis.
+Note that the estimate of the interaction term is positive ($0.68345$). Yet, 
+significant number of the gamma squared values are negative. Moreover, 
+the magnitude and sign of $\hat{\gamma}_{12}^2$ are contingent upon the specific
+combination of `X1b` and `X2b` variables utilized in the analysis.
 
 #### Visualize changes in $\hat{E}[Y|\textbf{x}]$ associated with one unit increase in `X1b` at different quantiles of `X2b`. 
 
