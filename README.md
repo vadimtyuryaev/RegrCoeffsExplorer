@@ -235,17 +235,17 @@ num_diffs_2_or_more
 #> [1] 0.1500364
 ```
 
-None of the differences observed within the values of the variable `X2`
-equate to a single unit. Furthermore, in excess of 15 &#37 of these
-differences are equal or surpass a magnitude of two units.Therefore,
-when analyzing standard regression output displaying per-unit
-interpretations, we, in a sense, comment on difference that might not
-exist in the real data.Consequently, when engaging in the analysis of
-standard regression outputs that provide interpretations on a per-unit
-basis, there is an implicit commentary on disparities that may not be
-present within the actual data. A more realistic approach is to utilize
-an actual observable difference, for example `Q3`-`Q1`, to calculate the
-OR.
+**None** of the differences observed within the values of the variable
+`X2` equate to a single unit. Furthermore, **in excess of** 15 percent
+of these differences are equal or surpass a magnitude of two
+units.Therefore, when analyzing standard regression output displaying
+per-unit interpretations, we, in a sense, comment on difference that
+might not exist in the real data.Consequently, when engaging in the
+analysis of standard regression outputs that provide interpretations on
+a per-unit basis, there is an implicit commentary on disparities that
+may not be present within the actual data. A more realistic approach is
+to utilize an actual observable difference, for example `Q3`-`Q1`, to
+calculate the OR.
 
 ### Plot changes in OR and empirical data distribution for the `X2` variable
 

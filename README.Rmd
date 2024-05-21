@@ -205,8 +205,8 @@ num_diffs_2_or_more
 
 ```
 
-None of the differences observed within the values of the variable `X2` equate
-to a single unit. Furthermore, in excess of 15 &#37 of these differences 
+**None** of the differences observed within the values of the variable `X2` equate
+to a single unit. Furthermore, **in excess of** 15 percent of these differences 
 are equal or surpass a magnitude of two units.Therefore, when analyzing standard
 regression output displaying per-unit interpretations, we, in a sense, comment
 on difference that might not exist in the real data.Consequently, when engaging 
