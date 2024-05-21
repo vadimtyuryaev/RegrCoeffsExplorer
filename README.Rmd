@@ -206,7 +206,7 @@ num_diffs_2_or_more
 ```
 
 None of the differences observed within the values of the variable `X2` equate
-to a single unit. Furthermore, in excess of $15\%$ of these differences 
+to a single unit. Furthermore, in excess of $15{\%}$ of these differences 
 are equal or surpass a magnitude of two units.Therefore, when analyzing standard
 regression output displaying per-unit interpretations, we, in a sense, comment
 on difference that might not exist in the real data.Consequently, when engaging 
@@ -500,9 +500,9 @@ ggplot(long_gamma_df, aes(x = X2_Quantile, y = GammaSquared)) +
 
 ```
 
-It should be noted that although the estimate ${\hat{\beta}_{12}}$ is positive, a 
-significant number of the $\hat{\gamma}_{12}^2$ values are negative. The magnitude 
-and sign of $\hat{\gamma}_{12}^2$ are contingent upon the specific combination
+It should be noted that although the estimate `$\hat{\beta}_{12}$` is positive, a 
+significant number of the `$\hat{\gamma}_{12}^2$` values are negative. The magnitude 
+and sign of `$\hat{\gamma}_{12}^2$` are contingent upon the specific combination
 of `X1b` and `X2b` variables utilized in the analysis.
 
 #### Visualize changes in $\hat{E}[Y|\textbf{x}]$ associated with one unit increase in `X1b` at different quantiles of `X2b`. 
