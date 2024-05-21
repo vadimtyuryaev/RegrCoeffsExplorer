@@ -236,7 +236,7 @@ num_diffs_2_or_more
 ```
 
 **None** of the differences observed within the values of the variable
-`X2` equate to a single unit. Furthermore, **in excess of** 15 percent
+`X2` equate to a single unit. Furthermore, **in excess of 15 percent**
 of these differences are equal or surpass a magnitude of two
 units.Therefore, when analyzing standard regression output displaying
 per-unit interpretations, we, in a sense, comment on difference that
@@ -295,7 +295,7 @@ ggplot can be applied to these plots using the `+` operator.
 vis_reg(glm_model, CI = TRUE, intercept = TRUE,
         palette = c("dodgerblue", "gold"))$RealizedEffectVis+
   scale_fill_manual(values = c("#DC143C","#DCDCDC" ))+
-  geom_hline(yintercept=exp(summary(glm_model)$coefficients[,1][3]*IQR(X2)),    # note the calculation
+  geom_hline(yintercept=exp(summary(glm_model)$coefficients[,1][3]*IQR(X2)), # note the calculation
              linetype="dashed", color = "orange", size=1)
 ```
 
@@ -309,9 +309,9 @@ below.
 ``` r
 
 vignette("BetaVisualizer", 
-         package = "RegrCoeffsExplorer")                                        # To visualize realized effect size 
+         package = "RegrCoeffsExplorer")  # To visualize realized effect sizes 
 
-vignette("OddsRatioVisualizer",                                                 # To visualize Odds Ratio
+vignette("OddsRatioVisualizer",           # To visualize Odds Ratios
          package = "RegrCoeffsExplorer")
 ```
 
@@ -335,8 +335,8 @@ the `BetaVisualizer` vignette.
 ## A cautionary note on intepretation of interaction effects in Generalized Linear Models (GLM)
 
 A frequently misrepresented and misunderstood concept is that
-coefficients for interaction terms in GLMs does not have a
-straightforward slope interpretation. This implies, among other
+coefficients for interaction terms in GLMs **do not** have
+straightforward slope interpretations. This implies, among other
 considerations, that in models including interaction terms, the ORs
 derived from coefficients might not be meaningful (Chen 2003). Many
 situations demand recalculation of correct ORs, and the interpretation
@@ -349,7 +349,7 @@ demonstrate computationally how interactions may depend on all
 predictors in the model and how these interactions can be estimated and
 interpreted on the probability scale.
 
-### Theoretical considerations regarding the interpretation of tnteraction terms
+### Theoretical considerations regarding the interpretation of interaction terms
 
 Consider a Linear Model with two continuous predictors and an
 interaction term:
@@ -410,7 +410,7 @@ standard bivariate normal distribution and use them to simulate a
 logistic regression model. By fitting the model, we obtain the estimated
 coefficients and calculate the values of $\hat{\gamma}^2_{12}$.
 Subsequently, we visualize the slopes of $\hat{E}[Y|\mathbf{X}]$
-calculated for two combinations of `X1b` and `X2b`.
+calculated for several combinations of `X1b` and `X2b`.
 
 #### Sample two predictors `X1b` and `X2b` from a standard bivariate normal distribution:
 
@@ -568,11 +568,11 @@ ggplot(long_gamma_df, aes(x = X2_Quantile, y = GammaSquared)) +
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
-It should be noted that although the estimate $\hat{\beta}_{12}$ is
-positive, a significant number of the $\hat{\gamma}_{12}^2$ values are
-negative. The magnitude and sign of $\hat{\gamma}_{12}^2$ are contingent
-upon the specific combination of `X1b` and `X2b` variables utilized in
-the analysis.
+Note that the estimate $\hat{\beta}_{12}$ is positive. Yet, significant
+number of the $\hat{\gamma}_{12}^2$ values are negative. Moreover, the
+magnitude and sign of $\hat{\gamma}_{12}^2$ are contingent upon the
+specific combination of `X1b` and `X2b` variables utilized in the
+analysis.
 
 #### Visualize changes in $\hat{E}[Y|\textbf{x}]$ associated with one unit increase in `X1b` at different quantiles of `X2b`.
 
@@ -588,23 +588,47 @@ predictions = lapply(x2_quantiles, function(x2) {
 })
 
 # Calculate values for plotting slopes
-x1_values_lines    = c(-1,0)
+x1_values_lines_1    = c(-1,0)
+x1_values_lines_2    = c(0.5,1.5)
 x2_quantiles_lines = quantile(X2b)[c(2,4)]
 
-predictions_lines = lapply(x2_quantiles_lines, function(x2) {
-  predicted_probs = 1 / (1 + exp(-(coef(model)[1] + coef(model)[2] * x1_values_lines + coef(model)[3] * x2 + coef(model)[4] * x1_values_lines * x2)))
+predictions_lines_1 = lapply(x2_quantiles_lines, function(x2) {
+  predicted_probs = 1 / (1 + exp(-(coef(model)[1] + coef(model)[2] * x1_values_lines_1 + coef(model)[3] * x2 + coef(model)[4] * x1_values_lines_1 * x2)))
   return(predicted_probs)
+})
+
+predictions_lines_2 = lapply(x2_quantiles_lines, function(x2) {
+  predicted_probs = 1 / (1 + exp(-(coef(model)[1] + coef(model)[2] * x1_values_lines_2 + coef(model)[3] * x2 + coef(model)[4] * x1_values_lines_2 * x2)))
+  return(predicted_probs) 
 })
 
 # Plot the results
 plot(x1_values, predictions[[1]], type = 'l', lwd = 2, ylim = c(0, 1), 
      ylab = "Estimated Probability", xlab = "X1b", main = "Interaction Effects")
-segments(-1, predictions_lines[[2]][1],0, predictions_lines[[2]][2], col="red4", lwd=2,lty="twodash")
-segments(-1, predictions_lines[[2]][1],0, predictions_lines[[2]][1], col="red4", lwd=2,lty="twodash")
-segments( 0, predictions_lines[[2]][1],0, predictions_lines[[2]][2], col="red4", lwd=2,lty="twodash")
-segments(-1, predictions_lines[[1]][1],0, predictions_lines[[1]][2], col="red4", lwd=2,lty="twodash")
-segments(-1, predictions_lines[[1]][1],0, predictions_lines[[1]][1], col="red4", lwd=2,lty="twodash")
-segments( 0, predictions_lines[[1]][1],0, predictions_lines[[1]][2], col="red4", lwd=2,lty="twodash")
+segments(-1, predictions_lines_1[[2]][1],0, predictions_lines_1[[2]][2], 
+         col="red4", lwd=2.5,lty="dotdash")
+segments(-1, predictions_lines_1[[2]][1],0, predictions_lines_1[[2]][1], 
+         col="red4", lwd=2.5,lty="dotdash")
+segments( 0, predictions_lines_1[[2]][1],0, predictions_lines_1[[2]][2], 
+          col="red4", lwd=2.5,lty="dotdash")
+segments(-1, predictions_lines_1[[1]][1],0, predictions_lines_1[[1]][2], 
+         col="red4", lwd=2.5,lty="dotdash")
+segments(-1, predictions_lines_1[[1]][1],0, predictions_lines_1[[1]][1], 
+         col="red4", lwd=2.5,lty="dotdash")
+segments( 0, predictions_lines_1[[1]][1],0, predictions_lines_1[[1]][2], 
+          col="red4", lwd=2.5,lty="dotdash")
+segments(0.5, predictions_lines_2[[2]][1],1.5, predictions_lines_2[[2]][2],     
+         col="springgreen4", lwd=3,lty="twodash")
+segments(0.5, predictions_lines_2[[2]][1],1.5, predictions_lines_2[[2]][1], 
+         col="springgreen4", lwd=3,lty="twodash")
+segments(1.5, predictions_lines_2[[2]][1],1.5, predictions_lines_2[[2]][2], 
+         col="springgreen4", lwd=3,lty="twodash")
+segments(0.5, predictions_lines_2[[1]][1],1.5, predictions_lines_2[[1]][2], 
+         col="springgreen4", lwd=3,lty="solid")
+segments(0.5, predictions_lines_2[[1]][1],1.5, predictions_lines_2[[1]][1], 
+         col="springgreen4", lwd=3,lty="solid")
+segments(1.5, predictions_lines_2[[1]][1],1.5, predictions_lines_2[[1]][2], 
+         col="springgreen4", lwd=3,lty="solid")
 lines(x1_values, predictions[[2]], lty = 2, lwd = 2)
 lines(x1_values, predictions[[3]], lty = 3, lwd = 2)
 legend("topleft", legend = c("25% X2b", "50% X2b", "75% X2b"), lty = 1:3, lwd = 2)
@@ -612,15 +636,21 @@ legend("topleft", legend = c("25% X2b", "50% X2b", "75% X2b"), lty = 1:3, lwd = 
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
-As anticipated, the alterations in $\hat{E}[Y|\textbf{x}]$ associated
-with a one-unit increment in `X1b` at the first and third quartiles of
-`X2b` demonstrate significant disparities. This observation
-substantiates the preliminary assertion regarding the inadequacy of
-$\hat{\beta}_{12}$ in capturing the interaction effects on the
-probability scale within the GLM framework, which incorporates two
-continuous predictors and an interaction term. Consequently, meticulous
-attention is required when incorporating interaction terms and
-interpreting the outcomes of models that include such terms.
+The alterations in $\hat{E}[Y|\textbf{x}]$ associated with one-unit
+increments in `X1b` at the first and third quartiles of `X2b`
+demonstrate significant disparities. Observe the variations in
+$\hat{E}[Y|\textbf{x}]$ for a unit change in `X1b` from $-1$ to $0$
+(red) compared to the changes in $\hat{E}[Y|\textbf{x}]$ for a unit
+change in X1b from $0.5$ to $1.5$ (green). Observe how the magnitudes of
+changes in the estimated probability associated with a unit increment in
+`X1b` vary depending on the position along the number line where the
+increment occurs. This observation substantiates the preliminary
+assertion regarding the inadequacy of $\hat{\beta}_{12}$ in capturing
+the interaction effects on the probability scale within the GLM
+framework, which incorporates two continuous predictors and an
+interaction term. Consequently, meticulous attention is required when
+incorporating interaction terms and interpreting the outcomes of models
+that include such terms.
 
 # References
 
