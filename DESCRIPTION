@@ -38,3 +38,4 @@ Suggests:
     selectiveInference,
     survival
 VignetteBuilder: knitr
+URL: https://vadimtyuryaev.github.io/RegrCoeffsExplorer/
