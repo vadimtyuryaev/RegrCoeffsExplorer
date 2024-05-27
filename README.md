@@ -39,10 +39,14 @@ You can install the current version of `RegrCoeffsExplorer` from
 ``` r
 library(devtools)
 
-devtools::install_github("vadimtyuryaev/RegrCoeffsExplorer",
+devtools::install_github("vadimtyuryaev/RegrCoeffsExplorer",    
                          ref = "main",
+                         dependencies = TRUE,
                          build_vignettes = TRUE)
 ```
+
+Alternatively, you can use the `remotes` library with the following
+command: `remotes::install_github()`.
 
 ## A Very Brief Recap on Logistic Regression
 
