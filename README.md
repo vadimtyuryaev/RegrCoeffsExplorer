@@ -79,8 +79,10 @@ $$\log{OR}=\log{\frac{\pi(\mathbf{X})}{1-\pi(\mathbf{X})}} =\beta_{0}+\beta_{1}X
 
 Change in log odds when one predictor variable ($X_{1}$) increases by
 one unit, while **all other variables remain unchanged**:
-$$\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1+1}})}{P(Y=0|\mathbf{X_{X_1=X_1+1}})}} -\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1}})}{P(Y=0|\mathbf{X_{X_1=X_1}})}} \mathrel{\bigcirc\hspace{-1.1em}=}  $$
-$$\mathrel{\bigcirc\hspace{-1.1em}=} \beta_{0}+\beta_{1}(X_{1}+1)+\ldots+\beta_{n}X_{n} - (\beta_{0}+\beta_{1}X_{1}+\ldots+\beta_{n}X_{n}) =\beta_{1}$$
+
+$$\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1+1}})}{P(Y=0|\mathbf{X_{X_1=X_1+1}})}} -\log{\frac{P(Y=1|\mathbf{X_{X_1=X_1}})}{P(Y=0|\mathbf{X_{X_1=X_1}})}} \overset{1}{=}$$
+$$\overset{1}{=} \beta_{0}+\beta_{1}(X_{1}+1)+\ldots+\beta_{n}X_{n} - (\beta_{0}+\beta_{1}X_{1}+\ldots+\beta_{n}X_{n}) =\beta_{1}$$
+
 Therefore, coefficient $\beta_{1}$ shows expected change in the Log Odds
 for a one unit increase in $X_1$. Thus, expected change in the Odds
 Ratio is $\exp(\beta_{1})$. Finally, expected change in the Odds Ratio
@@ -105,7 +107,6 @@ outcomes through a binomial sampling process.
 
 library(RegrCoeffsExplorer)
 library(gridExtra)
-#> Warning: package 'gridExtra' was built under R version 4.1.3
 
 # Set seed for reproducibility
 set.seed(1945)
@@ -174,10 +175,6 @@ summary(glm_model)
 #> Call:
 #> glm(formula = y ~ X1 + X2 + X3 + X4 + Factor_var, family = binomial(link = "logit"), 
 #>     data = data.frame(y, X1, X2, X3, X4, Factor_var))
-#> 
-#> Deviance Residuals: 
-#>     Min       1Q   Median       3Q      Max  
-#> -2.8488  -0.7365   0.2621   0.7452   2.5295  
 #> 
 #> Coefficients:
 #>             Estimate Std. Error z value Pr(>|z|)    
@@ -361,6 +358,7 @@ interaction term:
 $$E[Y|\textbf{X}] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2$$
 Define the **marginal effect** by taking the partial derivative with
 respect to $x_2$:
+
 $$\gamma_2 = \frac{\partial E[Y|\textbf{X}]}{\partial x_2} = \beta_2$$
 Therefore, $\beta_2$ is sufficient to quantify how much
 $E[Y|\textbf{X}]$ changes with respect to every one unit increase in
@@ -368,6 +366,7 @@ $\beta_2$, holding all other variables constant.
 
 Now, take the second order cross-partial derivative of $E[Y|\textbf{X}]$
 with respect to both $x_1$ and $x_2$:
+
 $$\gamma_{12}^2 = \frac{\partial^2 E[Y| \textbf{X}]}{\partial x_1 \partial x_2} = \beta_{12}$$
 Similar intuition as above holds. The interaction term $\beta_{12}$
 shows how effect of $x_1$ on $E[Y|\textbf{X}]$ changes for every one
@@ -384,23 +383,36 @@ $$E[Y|\textbf{X}]=g^{-1}(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_
 Note that the relationship is **no longer linear**.
 
 As an example, consider logistic regression:
+
 $$\log(\frac{E[Y|\textbf{X}]}{1-E[Y|\textbf{X}]})=\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2=\eta$$
 Transformation leads to:
+
 $$E[Y|\textbf{X}]=\frac{1}{1+exp(-\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2\})}=\frac{1}{1+exp(-\eta)}=\frac{exp(\eta)}{1+exp(\eta)}$$
 
 Let’s take the second order cross-partial derivative.
 
 Using the chain rule:
-$$\gamma_{12}^2 = \frac{\partial^2 E[Y|\textbf{X}]}{\partial x_1 \partial x_2} = \frac{\partial^2 g^{-1}(\eta)}{\partial x_1 \partial x_2} = \frac{\partial }{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial x_2} \right] \mathrel{\bigcirc\hspace{-1.1em}=}$$
-$$\mathrel{\bigcirc\hspace{-1.1em}=} \frac{\partial}{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial \eta} \frac{\partial \eta}{ \partial x_2} \right] = \frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta)]$$
+
+$$\gamma_{12}^2 = \frac{\partial^2 E[Y|\textbf{X}]}{\partial x_1 \partial x_2} = \frac{\partial^2 g^{-1}(\eta)}{\partial x_1 \partial x_2} = \frac{\partial }{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial x_2} \right] \overset{2}{=}$$
+
+$$\overset{2}{=} \frac{\partial}{\partial x_1} \left[ \frac{\partial g^{-1}(\eta)}{\partial \eta} \frac{\partial \eta}{ \partial x_2} \right] = \frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta)]$$
+
 Utilizing the product rule followed by the chain rule:
-$$\frac{\partial}{\partial x_1} \left[(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta) \right] =\frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)]\dot{g}^{-1}(\eta) +  [(\beta_2+\beta_{12} x_1)]\frac{\partial}{\partial x_1}[\dot{g}^{-1}(\eta)] \mathrel{\bigcirc\hspace{-1.1em}=}$$
-$$\mathrel{\bigcirc\hspace{-1.1em}=} \beta_{12} \dot{g}^{-1}(\eta)+(\beta_2+\beta_{12}x_1)(\beta_1+\beta_{12}x_2)\ddot{g}^{-1}(\eta)$$
+
+$$\frac{\partial}{\partial x_1} \left[(\beta_2+\beta_{12} x_1)\dot{g}^{-1}(\eta) \right] =\frac{\partial}{\partial x_1} [(\beta_2+\beta_{12} x_1)]\dot{g}^{-1}(\eta) +  [(\beta_2+\beta_{12} x_1)]\frac{\partial}{\partial x_1}[\dot{g}^{-1}(\eta)] \overset{3}{=}$$
+
+$$\overset{3}{=} \beta_{12} \dot{g}^{-1}(\eta)+(\beta_2+\beta_{12}x_1)(\beta_1+\beta_{12}x_2)\ddot{g}^{-1}(\eta)$$
+
 First and second derivative of the inverse link function are:
+
 $$\dot{g}^{-1}(\eta)=\frac{exp(\eta)}{(1+exp(\eta))^2}$$
+
 $$\ddot{g}^{-1}(\eta)=\frac{exp(\eta)(1-exp(\eta))}{(1+exp(\eta))^3}$$
+
 Therefore:
+
 $$\gamma_{12}^2=\beta_{12} \frac{e^{\eta}}{(1+e^{\eta})^2}+(\beta_1+\beta_{12}x_2)(\beta_2+\beta_{12}x_1)\frac{e^{\eta}(1-e^{\eta})}{(1+e^{\eta})^3}$$
+
 Calculation above show that an interaction term in GLMs depends on all
 predictors within the model.This implies that the coefficient
 $\beta_{12}$ alone does not adequately describe how the effect of
@@ -444,7 +456,6 @@ $$\phi(x_1, x_2) = \frac{1}{2\pi \sigma_1 \sigma_2 \sqrt{1 - \rho^2}} \exp\left(
 
 # Load necessary library
 library(MASS)          # for sampling from a multivariate normal distribution
-#> Warning: package 'MASS' was built under R version 4.1.3
 library(ggplot2)
 library(reshape2)      # for melting data frames
 
@@ -500,10 +511,6 @@ summary(model)
 #> Call:
 #> glm(formula = Y ~ X1 + X2 + X1X2, family = binomial(link = "logit"), 
 #>     data = data)
-#> 
-#> Deviance Residuals: 
-#>     Min       1Q   Median       3Q      Max  
-#> -2.3659  -0.7483  -0.3268   0.7409   2.8590  
 #> 
 #> Coefficients:
 #>             Estimate Std. Error z value Pr(>|z|)    
