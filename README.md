@@ -356,6 +356,7 @@ Consider a Linear Model with two continuous predictors and an
 interaction term:
 
 $$E[Y|\textbf{X}] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2$$
+
 Define the **marginal effect** by taking the partial derivative with
 respect to $x_2$:
 
@@ -368,6 +369,7 @@ Now, take the second order cross-partial derivative of $E[Y|\textbf{X}]$
 with respect to both $x_1$ and $x_2$:
 
 $$\gamma_{12}^2 = \frac{\partial^2 E[Y| \textbf{X}]}{\partial x_1 \partial x_2} = \beta_{12}$$
+
 Similar intuition as above holds. The interaction term $\beta_{12}$
 shows how effect of $x_1$ on $E[Y|\textbf{X}]$ changes for every one
 unit increase in $x_2$ and vice versa.
@@ -380,11 +382,13 @@ $$g(E[Y|\textbf{X}])=\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2$$
 Converting GLM to a natural scale using the inverse link function:
 
 $$E[Y|\textbf{X}]=g^{-1}(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2)$$
+
 Note that the relationship is **no longer linear**.
 
 As an example, consider logistic regression:
 
 $$\log(\frac{E[Y|\textbf{X}]}{1-E[Y|\textbf{X}]})=\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2=\eta$$
+
 Transformation leads to:
 
 $$E[Y|\textbf{X}]=\frac{1}{1+exp(-\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2\})}=\frac{1}{1+exp(-\eta)}=\frac{exp(\eta)}{1+exp(\eta)}$$
