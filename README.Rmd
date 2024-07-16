@@ -324,6 +324,7 @@ Define the **marginal effect** by taking the partial derivative with respect to
 $x_2$:
 
 $$\gamma_2 = \frac{\partial E[Y|\textbf{X}]}{\partial x_2} = \beta_2$$
+
 Therefore, $\beta_2$ is sufficient to quantify how much $E[Y|\textbf{X}]$ changes
 with respect to every one unit increase in $\beta_2$, holding all other variables
 constant. 
