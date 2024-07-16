@@ -379,7 +379,7 @@ Sale in the USA in 1993.</p>
 <span></span>
 <span><span class="va">ndim_lasso</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">x_lasso</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span></span>
-<span><span class="va">cv_model_lasso</span> <span class="op">=</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/cv.glmnet.html" class="external-link">cv.glmnet</a></span><span class="op">(</span><span class="va">x_lasso</span>, <span class="va">y_lasso</span>, family<span class="op">=</span><span class="st">"gaussian"</span>, alpha<span class="op">=</span><span class="fl">1</span><span class="op">)</span>        <span class="co"># LASSO regression</span></span>
+<span><span class="va">cv_model_lasso</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/glmnet/man/cv.glmnet.html" class="external-link">cv.glmnet</a></span><span class="op">(</span><span class="va">x_lasso</span>, <span class="va">y_lasso</span>, family<span class="op">=</span><span class="st">"gaussian"</span>, alpha<span class="op">=</span><span class="fl">1</span><span class="op">)</span>        <span class="co"># LASSO regression</span></span>
 <span></span>
 <span><span class="co"># extract value of lambda that gives minimum mean cross-validated error</span></span>
 <span><span class="va">best_lambda_lasso</span> <span class="op">=</span> <span class="va">cv_model_lasso</span><span class="op">$</span><span class="va">lambda.min</span>                                   </span>
@@ -388,7 +388,7 @@ Sale in the USA in 1993.</p>
 <p><img src="BetaVisualizer_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">best_model_lasso</span> <span class="op">=</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/glmnet.html" class="external-link">glmnet</a></span><span class="op">(</span><span class="va">x_lasso</span>, <span class="va">y_lasso</span>, family<span class="op">=</span><span class="st">"gaussian"</span>, alpha<span class="op">=</span><span class="fl">1</span>, </span>
+<span><span class="va">best_model_lasso</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/glmnet/man/glmnet.html" class="external-link">glmnet</a></span><span class="op">(</span><span class="va">x_lasso</span>, <span class="va">y_lasso</span>, family<span class="op">=</span><span class="st">"gaussian"</span>, alpha<span class="op">=</span><span class="fl">1</span>, </span>
 <span>                            lambda<span class="op">=</span><span class="va">best_lambda_lasso</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coefficients</a></span><span class="op">(</span><span class="va">best_model_lasso</span><span class="op">)</span></span>
@@ -653,7 +653,7 @@ more instinctual explication.</p>
 <span><span class="va">x_heart_orig</span><span class="op">=</span><span class="va">x_heart</span>                                                            <span class="co"># save original data set</span></span>
 <span><span class="va">x_heart</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">x_heart</span>,<span class="cn">T</span>,<span class="cn">T</span><span class="op">)</span>                                                    </span>
 <span></span>
-<span><span class="va">gfit_heart</span> <span class="op">=</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/cv.glmnet.html" class="external-link">cv.glmnet</a></span><span class="op">(</span><span class="va">x_heart</span>,<span class="va">y_heart</span>,standardize<span class="op">=</span><span class="cn">F</span>,family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span>
+<span><span class="va">gfit_heart</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/glmnet/man/cv.glmnet.html" class="external-link">cv.glmnet</a></span><span class="op">(</span><span class="va">x_heart</span>,<span class="va">y_heart</span>,standardize<span class="op">=</span><span class="cn">F</span>,family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">lambda_heart</span><span class="op">=</span><span class="va">gfit_heart</span><span class="op">$</span><span class="va">lambda.min</span></span>
 <span><span class="va">n_heart</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">x_heart</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
@@ -742,7 +742,7 @@ Inference”</strong> (pp.9-10).</p>
 <span><span class="va">pf</span><span class="op">=</span><span class="va">p</span><span class="op">*</span><span class="va">pf</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">pf</span><span class="op">)</span> <span class="co"># penalty factors should be rescaled so they sum to p</span></span>
 <span><span class="va">xs</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">x</span>,<span class="cn">FALSE</span>,<span class="va">pf</span><span class="op">)</span> <span class="co">#scale cols of x by penalty factors</span></span>
 <span><span class="co"># first run glmnet</span></span>
-<span><span class="va">gfit</span> <span class="op">=</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/glmnet.html" class="external-link">glmnet</a></span><span class="op">(</span><span class="va">xs</span>, <span class="va">y</span>, standardize<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">gfit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/glmnet/man/glmnet.html" class="external-link">glmnet</a></span><span class="op">(</span><span class="va">xs</span>, <span class="va">y</span>, standardize<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co"># extract coef for a given lambda; note the 1/n factor!</span></span>
 <span><span class="co"># (and we don't save the intercept term)</span></span>
 <span><span class="va">lambda</span> <span class="op">=</span> <span class="fl">.8</span></span>
@@ -790,7 +790,7 @@ encompass</strong> the estimated coefficients
 <span></span>
 <span><span class="va">xs_heart_res</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">x_heart</span>,<span class="cn">FALSE</span>,<span class="va">pf_heart</span><span class="op">)</span>                                      <span class="co"># note that the data is being scaled again</span></span>
 <span></span>
-<span><span class="va">gfit_heart_pef_fac_res</span> <span class="op">=</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/cv.glmnet.html" class="external-link">cv.glmnet</a></span><span class="op">(</span><span class="va">xs_heart_res</span>, <span class="va">y_heart</span>, standardize<span class="op">=</span><span class="cn">FALSE</span>, </span>
+<span><span class="va">gfit_heart_pef_fac_res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/glmnet/man/cv.glmnet.html" class="external-link">cv.glmnet</a></span><span class="op">(</span><span class="va">xs_heart_res</span>, <span class="va">y_heart</span>, standardize<span class="op">=</span><span class="cn">FALSE</span>, </span>
 <span>                                   family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">lambda_heart_pef_fac_res</span><span class="op">=</span><span class="va">gfit_heart_pef_fac_res</span><span class="op">$</span><span class="va">lambda.min</span></span>
