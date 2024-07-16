@@ -349,7 +349,7 @@ vis_reg = function(object,...){
     }
   }else{
     title1 = "Visualization of Regression Results (Unit)"                       # default title for plot 1
-    title2 = "Visualization of Regression Results (Effective)"                  # default title for plot 2
+    title2 = "Visualization of Regression Results (Realized)"                   # default title for plot 2
   }
 
   if ("intercept" %in% names(args)){
