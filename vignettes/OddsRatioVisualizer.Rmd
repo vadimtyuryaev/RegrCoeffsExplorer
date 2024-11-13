@@ -40,7 +40,7 @@ library(rlang)
 
 ## 1. Data
 
-We will use the *Career choice of high school students* (`hsb`) dataset from the *faraway* package to demonstrate how **`plot_OR`** function works and how it can be customized. This dataset contains 200 observations with 11 factors related to students' physical characteristics as well as their study performance. More details on this dataset can be found [in the official documentation](https://cran.r-project.org/web/packages/faraway/faraway.pdf).
+We will use the *Career choice of high school students* (`hsb`) dataset from the *faraway* package to demonstrate how **`plot_OR`** function works and how it can be customized. This dataset contains 200 observations with 11 factors related to students' physical characteristics as well as their study performance. More details on this dataset can be found [in the official documentation](https://CRAN.R-project.org/package=faraway).
 
 ```{r}
 # Get program choice of high school students data

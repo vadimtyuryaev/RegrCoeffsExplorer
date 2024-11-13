@@ -332,7 +332,7 @@ the `BetaVisualizer` vignette.
 2.  [Recent Advances in Post-Selection Statistical
     Inference](https://www.math.wustl.edu/~kuffner/TibshiraniSlides.pdf)
 3.  [Tools for Post-Selection
-    Inference](https://cran.r-project.org/web/packages/selectiveInference/selectiveInference.pdf)
+    Inference](https://CRAN.R-project.org/package=selectiveInference)
 
 ## A cautionary note on intepretation of interaction effects in Generalized Linear Models (GLM)
 
