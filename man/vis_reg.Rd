@@ -108,6 +108,10 @@ and 1, and 0 being the base level, \code{mode.matrix()} will create a dummy
 variable called "sex1". Please, utilize the names created by
 \code{mode.matrix()} here and not the original factor name.
 }
+\item \code{verbose} : A logical value indicating whether to display warning messages.
+\itemize{
+\item The default is \code{FALSE}.
+}
 }
 
 Please note the following:

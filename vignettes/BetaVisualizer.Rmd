@@ -368,11 +368,13 @@ heart_cont_table
 # 'age' is skewed variable with a very big range
 paste("Range of '\ age \' variable is : ",diff(range(heart_df_filtered$age)))
 
+old_par = par()      
 par(mfrow=c(2,2))
 hist(heart_df_filtered$age, main="Histogram of Age", xlab="age")
 boxplot(heart_df_filtered$age,main="Boxplot of Age", ylab="age")
 hist(sqrt(heart_df_filtered$age),main="Histogram of transformed data", xlab="Sqrt(age)")
 boxplot(sqrt(heart_df_filtered$age),main="Boxplot of transformed data", ylab="Sqrt(age)")
+par(old_par)          
 
 ```
 
