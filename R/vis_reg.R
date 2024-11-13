@@ -97,6 +97,9 @@
 #'      variable called "sex1". Please, utilize the names created by
 #'      `mode.matrix()` here and not the original factor name.
 #'
+#' * `verbose` : A logical value indicating whether to display warning messages.
+#'    - The default is `FALSE`.
+#'
 #' Please note the following:
 #'
 #' * Only `Gaussian` and `binomial` families are currently supported.
@@ -192,8 +195,14 @@ vis_reg = function(object,...){
     CI=F                                                                        # no CIs by default
   }
 
+  if ("verbose" %in% names(args)){
+    verbose = args$verbose
+  }else{
+    verbose=F                                                                   # no warning messages by default
+  }
+
   # obtain names of continuous variables
-  # extract a data frame based on the class of object passed
+  # extract data frame based on the class of object passed
   # check if all variables are categorical
 
   if(any(paste(class(object),collapse = ',')==c("glm,lm"))){
@@ -220,16 +229,18 @@ vis_reg = function(object,...){
     x_data=eval(object$call$x)
 
     #check if there any penalty factors passed
-    if (!is.null(object$call$penalty.factor)){                                  # check for for elnet/lognet objects
+    if (!is.null(object$call$penalty.factor)){                                  # check for elnet/lognet objects
       case_penalty=T
       penfac=eval(object$call$penalty.factor)
 
       # check if any of penalty factors passed is set to 0
       if (any(penfac)==0){
         CI = F
+        if (verbose){
         warning("No CIs are currently produced if any of the penalty factors
                  is equal to 0. Please,refer to documentation for the package
                  \"selectiveInference\" for additional information")
+        }
       }
     }
 
@@ -273,8 +284,10 @@ vis_reg = function(object,...){
     if (!("glmnet_fct_var" %in% names(args))){
       num_col_names=names(df_temp)
       cat_col_names=NULL
+      if(verbose){
       warning("All variables are treated as numeric, as no names for categorical
               variables have been provided")
+      }
     }else{
       cat_col_names=args$glmnet_fct_var
       coef_names=names(df_temp)
@@ -294,16 +307,15 @@ vis_reg = function(object,...){
       if(length(cat_col_names)==length(coef_names)){                            # only factors
         case_all_factors=T
         num_col_names=NULL
-
       }
       else{
         num_col_names=coef_names[!coef_names %in% cat_col_names]
       }
     }
   }else{
-    stop(cat("Object should be of one of the following classes: \"elnet\" \"glment\",
-           \"lognet\" \"glment\",\"fixedLassoInf\", \"fixedLogitLassoInf\",
-           \"glm\" \"lm\", \"lm\" "))
+    stop("Object should be of one of the following classes: \"elnet\" \"glmnet\",
+           \"lognet\" \"glmnet\",\"fixedLassoInf\", \"fixedLogitLassoInf\",
+           \"glm\" \"lm\", \"lm\" ")
   }
 
   if(case_lm || case_glm_lm){
@@ -313,7 +325,9 @@ vis_reg = function(object,...){
       num_col_names=NULL
       cat_col_names=names(object$coefficients)
       args$title=c("Regression with categorical variables only", "This is a placeholder")
+      if(verbose){
       warning("All variables passed are factor variables")
+      }
     }
   }
 
@@ -326,15 +340,17 @@ vis_reg = function(object,...){
     if (any(!check_var_type)){                                                  # if any of variables is not factor or numeric
       non_num_fac_vars = names(df_temp)[!check_var_type]
       coef_names=coef_names[-which(coef_names==non_num_fac_vars)]
-      if (length(non_num_fac_vars)==1){
-        warning(paste(non_num_fac_vars),
-                "is not a numeric or a factor variable and will not be used")
-      }else{
+      if (verbose){
+        if (length(non_num_fac_vars)==1){
+          warning(paste(non_num_fac_vars),
+                  "is not a numeric or a factor variable and will not be used")
+      } else{
         warning(paste(non_num_fac_vars),
                 "are not numeric or factor variables and will not be used")
+        }
       }
     }
-    cat_col_names=coef_names[!coef_names %in% num_col_names]                    # names of categorical variables + 'Intercept'
+    cat_col_names=coef_names[!coef_names %in% num_col_names]                    # names of categorical variables + `Intercept`
   }
 
   # extract user-specified parameters and define defaults
@@ -533,7 +549,7 @@ vis_reg = function(object,...){
   plt1 = ggplot(temp_df %>% mutate(
     filling = ifelse(.data[["Estimates"]] > bottom_line,
                      "Increases", "Decreases")),
-              aes(x = reorder(.data[["Variables"]], .data[["Estimates"]]),                             # .data[["Variables"]] .data[["Estimates"]]
+              aes(x = reorder(.data[["Variables"]], .data[["Estimates"]]),
                   y = .data[["Estimates"]],
                   fill = .data[["filling"]])) +
     geom_hline(yintercept = bottom_line, linetype = "dashed",
@@ -590,7 +606,7 @@ vis_reg = function(object,...){
             panel.border = element_blank(),
             panel.background = element_blank())
 
-    plt3=arrangeGrob(plt1,plt2, nrow=1, widths = c(1,1))                        # arrange, call grid.arrange() to display
+    plt3=arrangeGrob(plt1,plt2, nrow=1, widths = c(1,1))                        # call grid.arrange() to display
 
     l=list("PerUnitVis"=plt1, "RealizedEffectVis" = plt2, "SidebySide"=plt3)
   }else{
