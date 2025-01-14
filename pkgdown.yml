@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   BetaVisualizer: BetaVisualizer.html
   OddsRatioVisualizer: OddsRatioVisualizer.html
-last_built: 2025-01-14T06:34Z
+last_built: 2025-01-14T06:44Z
 urls:
   reference: https://vadimtyuryaev.github.io/RegrCoeffsExplorer/reference
   article: https://vadimtyuryaev.github.io/RegrCoeffsExplorer/articles
