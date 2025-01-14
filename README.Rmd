@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)
 [![R-CMD-check](https://github.com/r-lib/rcmdcheck/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/rcmdcheck/actions/workflows/R-CMD-check.yaml)
+[![CRAN Status](https://www.r-pkg.org/badges/version/RegrCoeffsExplorer)](https://CRAN.R-project.org/package=RegrCoeffsExplorer)
 <!-- badges: end -->
 
 _Always present effect sizes for primary outcomes_ [@Wilkinson1999Statistical].
@@ -40,7 +41,15 @@ Elastic-Net Regularized Generalized Linear Models (GLMNET) frameworks.
 
 ## Installation
 
-You can install the current version of `RegrCoeffsExplorer` from 
+CRAN version[@R-RegrCoeffsExplorer] can be installed with:
+
+```{r, eval=F, echo=T, results="hide", warning=F, message=F }
+
+install.packages("RegrCoeffsExplorer")
+
+```
+
+You can install the development version of `RegrCoeffsExplorer` from 
 [GitHub](https://github.com/vadimtyuryaev/RegrCoeffsExplorer) with:
 
 ```{r, eval=F, echo=T, results="hide", warning=F, message=F }
@@ -240,6 +249,8 @@ median and jitters to add random noise to data points preventing overlap and
 revealing the underlying data distribution more clearly. Substantial changes in
 the OR progressing alone the empirical data are clearly observed. 
 
+
+
 ### Customize plots - 1/2
 
 ```{r, warning=F, message=F}
@@ -319,24 +330,13 @@ how these interactions can be estimated and interpreted on the probability scale
 Consider a Linear Model with two continuous predictors and an interaction term:
 
 $$E[Y|\textbf{X}] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2$$
-
-Define the **marginal effect** by taking the partial derivative with respect to 
-$x_2$:
-
-$$\gamma_2 = \frac{\partial E[Y|\textbf{X}]}{\partial x_2} = \beta_2$$
-
-Therefore, $\beta_2$ is sufficient to quantify how much $E[Y|\textbf{X}]$ changes
-with respect to every one unit increase in $\beta_2$, holding all other variables
-constant. 
-
-Now, take the second order cross-partial derivative of $E[Y|\textbf{X}]$ with 
+Take the second order cross-partial derivative of $E[Y|\textbf{X}]$ with 
 respect to both $x_1$ and $x_2$:
 
 $$\gamma_{12}^2 = \frac{\partial^2 E[Y| \textbf{X}]}{\partial x_1 \partial x_2} = \beta_{12}$$
 
-Similar intuition as above holds. The interaction term $\beta_{12}$ shows 
-how effect of $x_1$ on $E[Y|\textbf{X}]$ changes for every one unit increase in
-$x_2$ and vice versa. 
+The interaction term $\beta_{12}$ shows how effect of $x_1$ on $E[Y|\textbf{X}]$ 
+changes for every one unit increase in $x_2$ and vice versa. 
 
 Now consider a logistic regression model with a non-linear link function $g(\cdot)$,
 two continuous predictors and an interaction term: 

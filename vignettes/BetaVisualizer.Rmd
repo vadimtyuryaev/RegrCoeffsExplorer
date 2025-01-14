@@ -296,7 +296,7 @@ their interpretation align with the paradigm change discussed previously.
 plt_1=vis_reg(best_model_lasso,eff_size_diff=c(1,3),
               glmnet_fct_var="Originnon-USA")$"PerUnitVis"+
               ggtitle("Visualization of CV.GLMNET Results (per unit change)")+
-              ylim(-4,4)+
+              ylim(-5,5)+
               xlab("Car characteristics")+
               ylab("LASSO coefficients")+
               theme_bw()+
@@ -368,12 +368,17 @@ heart_cont_table
 # 'age' is skewed variable with a very big range
 paste("Range of '\ age \' variable is : ",diff(range(heart_df_filtered$age)))
 
-old_par = par()      
+# Save the current graphical parameters
+old_par = par(no.readonly = TRUE) 
+
+# Produce boxplots and histograms 
 par(mfrow=c(2,2))
 hist(heart_df_filtered$age, main="Histogram of Age", xlab="age")
 boxplot(heart_df_filtered$age,main="Boxplot of Age", ylab="age")
 hist(sqrt(heart_df_filtered$age),main="Histogram of transformed data", xlab="Sqrt(age)")
 boxplot(sqrt(heart_df_filtered$age),main="Boxplot of transformed data", ylab="Sqrt(age)")
+
+# Restore previous graphical parameters
 par(old_par)          
 
 ```
@@ -495,7 +500,7 @@ or up before passing the data to the function.
 
 ### 3.6.6 LASSO regression with CIs and custom realized effect size
 
-```{r,fig.height=6,fig.width=12, warning=F}
+```{r,fig.height=6,fig.width=12, warning=T}
 
 grid.arrange(vis_reg(out_heart, CI=T, glmnet_fct_var=c("surgery1"), 
                      round_func="none",eff_size_diff=c(1,3))$"SidebySide"

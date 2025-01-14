@@ -8,6 +8,8 @@
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)
 [![R-CMD-check](https://github.com/r-lib/rcmdcheck/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/rcmdcheck/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+Status](https://www.r-pkg.org/badges/version/RegrCoeffsExplorer)](https://CRAN.R-project.org/package=RegrCoeffsExplorer)
 <!-- badges: end -->
 
 *Always present effect sizes for primary outcomes* (Wilkinson 1999).
@@ -33,7 +35,14 @@ Elastic-Net Regularized Generalized Linear Models (GLMNET) frameworks.
 
 ## Installation
 
-You can install the current version of `RegrCoeffsExplorer` from
+CRAN version(Tyuryaev et al. 2024) can be installed with:
+
+``` r
+
+install.packages("RegrCoeffsExplorer")
+```
+
+You can install the development version of `RegrCoeffsExplorer` from
 [GitHub](https://github.com/vadimtyuryaev/RegrCoeffsExplorer) with:
 
 ``` r
@@ -286,7 +295,7 @@ vis_reg(glm_model, CI = TRUE, intercept = TRUE,
   theme(plot.title = element_text(hjust = 0.5))   
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" /> As
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" /> As
 observed, when returning individual plots, the resulting entities are
 `ggplot` objects. Consequently, any operation that is compatible with
 ggplot can be applied to these plots using the `+` operator.
@@ -301,7 +310,7 @@ vis_reg(glm_model, CI = TRUE, intercept = TRUE,
              linetype="dashed", color = "orange", size=1)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ## Vignettes
 
@@ -357,24 +366,14 @@ Consider a Linear Model with two continuous predictors and an
 interaction term:
 
 $$E[Y|\textbf{X}] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2$$
-
-Define the **marginal effect** by taking the partial derivative with
-respect to $x_2$:
-
-$$\gamma_2 = \frac{\partial E[Y|\textbf{X}]}{\partial x_2} = \beta_2$$
-
-Therefore, $\beta_2$ is sufficient to quantify how much
-$E[Y|\textbf{X}]$ changes with respect to every one unit increase in
-$\beta_2$, holding all other variables constant.
-
-Now, take the second order cross-partial derivative of $E[Y|\textbf{X}]$
-with respect to both $x_1$ and $x_2$:
+Take the second order cross-partial derivative of $E[Y|\textbf{X}]$ with
+respect to both $x_1$ and $x_2$:
 
 $$\gamma_{12}^2 = \frac{\partial^2 E[Y| \textbf{X}]}{\partial x_1 \partial x_2} = \beta_{12}$$
 
-Similar intuition as above holds. The interaction term $\beta_{12}$
-shows how effect of $x_1$ on $E[Y|\textbf{X}]$ changes for every one
-unit increase in $x_2$ and vice versa.
+The interaction term $\beta_{12}$ shows how effect of $x_1$ on
+$E[Y|\textbf{X}]$ changes for every one unit increase in $x_2$ and vice
+versa.
 
 Now consider a logistic regression model with a non-linear link function
 $g(\cdot)$, two continuous predictors and an interaction term:
@@ -583,7 +582,7 @@ ggplot(long_gamma_df, aes(x = X2_Quantile, y = GammaSquared)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 Note that the estimate of the interaction term is positive ($0.68345$).
 Yet, significant number of the gamma squared values are negative.
@@ -651,7 +650,7 @@ lines(x1_values, predictions[[3]], lty = 3, lwd = 2)
 legend("topleft", legend = c("25% X2b", "50% X2b", "75% X2b"), lty = 1:3, lwd = 2)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 The alterations in $\hat{E}[Y|\textbf{x}]$ associated with one-unit
 increments in `X1b` at the first and third quartiles of `X2b`
@@ -730,6 +729,16 @@ Thompson, B. 1999. “Five Methodology Errors in Educational
 Research:apantheon of Statistical Significance and Other Faux Pas.”
 *Advances in Social Science Methodology* 5: 23–86.
 <https://files.eric.ed.gov/fulltext/ED419023.pdf>.
+
+</div>
+
+<div id="ref-R-RegrCoeffsExplorer" class="csl-entry">
+
+Tyuryaev, Vadim, Aleksandr Tsybakin, Jane Heffernan, Hanna Jankowski,
+and Kevin McGregor. 2024. *RegrCoeffsExplorer: Efficient Visualization
+of Regression Coefficients for Lm(), Glm(), and Glmnet() Objects*.
+Comprehensive R Archive Network (CRAN).
+<https://doi.org/10.32614/CRAN.package.RegrCoeffsExplorer>.
 
 </div>
 
