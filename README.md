@@ -35,7 +35,7 @@ Elastic-Net Regularized Generalized Linear Models (GLMNET) frameworks.
 
 ## Installation
 
-CRAN version(Tyuryaev et al. 2024) can be installed with:
+CRAN version (Tyuryaev et al. 2024) can be installed with:
 
 ``` r
 
@@ -366,6 +366,7 @@ Consider a Linear Model with two continuous predictors and an
 interaction term:
 
 $$E[Y|\textbf{X}] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2$$
+
 Take the second order cross-partial derivative of $E[Y|\textbf{X}]$ with
 respect to both $x_1$ and $x_2$:
 
