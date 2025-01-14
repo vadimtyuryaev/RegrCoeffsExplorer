@@ -8,8 +8,8 @@
 <title>Efficient Visualization of Regression Coefficients for lm(), glm(), and glmnet() Objects • RegrCoeffsExplorer</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Efficient Visualization of Regression Coefficients for lm(), glm(), and glmnet() Objects">
 <meta name="description" content="The visualization tool offers a nuanced understanding of regression dynamics, going beyond traditional per-unit interpretation of continuous variables versus categorical ones. It highlights the impact of unit changes as well as larger shifts like interquartile changes, acknowledging the distribution of empirical data. Furthermore, it generates visualizations depicting alterations in Odds Ratios for predictors across minimum, first quartile, median, third quartile, and maximum values, aiding in comprehending predictor-outcome interplay within empirical data distributions, particularly in logistic regression frameworks.">
 <meta property="og:description" content="The visualization tool offers a nuanced understanding of regression dynamics, going beyond traditional per-unit interpretation of continuous variables versus categorical ones. It highlights the impact of unit changes as well as larger shifts like interquartile changes, acknowledging the distribution of empirical data. Furthermore, it generates visualizations depicting alterations in Odds Ratios for predictors across minimum, first quartile, median, third quartile, and maximum values, aiding in comprehending predictor-outcome interplay within empirical data distributions, particularly in logistic regression frameworks.">
@@ -64,8 +64,12 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the current version of <code>RegrCoeffsExplorer</code> from <a href="https://github.com/vadimtyuryaev/RegrCoeffsExplorer" class="external-link">GitHub</a> with:</p>
+<p>CRAN version(Tyuryaev et al. 2024) can be installed with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"RegrCoeffsExplorer"</span><span class="op">)</span></span></code></pre></div>
+<p>You can install the development version of <code>RegrCoeffsExplorer</code> from <a href="https://github.com/vadimtyuryaev/RegrCoeffsExplorer" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"vadimtyuryaev/RegrCoeffsExplorer"</span>,    </span>
@@ -98,7 +102,7 @@
 <h3 id="consider-implications-of-a-change-exceeding-one-unit-on-the-odds-ratio">Consider implications of a change exceeding one unit on the Odds Ratio<a class="anchor" aria-label="anchor" href="#consider-implications-of-a-change-exceeding-one-unit-on-the-odds-ratio"></a>
 </h3>
 <p>To generate a dataset for logistic regression analysis, we simulate four continuous predictor variables and one categorical predictor variable. The continuous predictors are sampled from a normal distribution, each with distinct means and standard deviations. The categorical predictor is generated as a dummy variable with two levels. The binary response variable is calculated by applying a logistic function to a linear combination of the predictors, thereby transforming the latent variable to a probability scale, which serves as the basis for generating binary outcomes through a binomial sampling process.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vadimtyuryaev.github.io/RegrCoeffsExplorer/">RegrCoeffsExplorer</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">gridExtra</span><span class="op">)</span></span>
@@ -157,7 +161,7 @@
 <div class="section level3">
 <h3 id="check-estimated-coefficients">Check estimated coefficients<a class="anchor" aria-label="anchor" href="#check-estimated-coefficients"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">glm_model</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
@@ -186,7 +190,7 @@
 <div class="section level3">
 <h3 id="obtain-odds-ratio-or">Obtain Odds Ratio (OR)<a class="anchor" aria-label="anchor" href="#obtain-odds-ratio-or"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">glm_model</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; (Intercept)          X1          X2          X3          X4 Factor_var1 </span></span>
 <span><span class="co">#&gt;   0.3231247   0.7341269   3.1061734   0.5205559   1.7080454   3.3704659</span></span></code></pre></div>
@@ -195,7 +199,7 @@
 <div class="section level3">
 <h3 id="real-data-differences">Real data differences<a class="anchor" aria-label="anchor" href="#real-data-differences"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Calculate all possible differences (1000 choose 2)</span></span>
 <span><span class="va">all_diffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/combn.html" class="external-link">combn</a></span><span class="op">(</span><span class="va">X2</span>, <span class="fl">2</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
@@ -219,7 +223,7 @@
 <div class="section level3">
 <h3 id="plot-changes-in-or-and-empirical-data-distribution-for-the-x2-variable">Plot changes in OR and empirical data distribution for the <code>X2</code> variable<a class="anchor" aria-label="anchor" href="#plot-changes-in-or-and-empirical-data-distribution-for-the-x2-variable"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="reference/plot_OR.html">plot_OR</a></span><span class="op">(</span><span class="va">glm_model</span>, </span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X1</span>, <span class="va">X2</span>, <span class="va">X3</span>, <span class="va">X4</span>, <span class="va">Factor_var</span><span class="op">)</span>, </span>
@@ -231,7 +235,7 @@
 <div class="section level3">
 <h3 id="customize-plots---12">Customize plots - 1/2<a class="anchor" aria-label="anchor" href="#customize-plots---12"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/vis_reg.html">vis_reg</a></span><span class="op">(</span><span class="va">glm_model</span>, CI <span class="op">=</span> <span class="cn">TRUE</span>, intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -243,25 +247,25 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"whitesmoke"</span> <span class="op">)</span><span class="op">)</span><span class="op">+</span>                            </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>   </span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"> As observed, when returning individual plots, the resulting entities are <code>ggplot</code> objects. Consequently, any operation that is compatible with ggplot can be applied to these plots using the <code>+</code> operator.</p>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"> As observed, when returning individual plots, the resulting entities are <code>ggplot</code> objects. Consequently, any operation that is compatible with ggplot can be applied to these plots using the <code>+</code> operator.</p>
 </div>
 <div class="section level3">
 <h3 id="customize-plots---22">Customize plots - 2/2<a class="anchor" aria-label="anchor" href="#customize-plots---22"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/vis_reg.html">vis_reg</a></span><span class="op">(</span><span class="va">glm_model</span>, CI <span class="op">=</span> <span class="cn">TRUE</span>, intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>        palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dodgerblue"</span>, <span class="st">"gold"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">RealizedEffectVis</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#DC143C"</span>,<span class="st">"#DCDCDC"</span> <span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">glm_model</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/stats/IQR.html" class="external-link">IQR</a></span><span class="op">(</span><span class="va">X2</span><span class="op">)</span><span class="op">)</span>, <span class="co"># note the calculation</span></span>
 <span>             linetype<span class="op">=</span><span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"orange"</span>, size<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h2>
 <p>Would you like to know more? Please, check out the in-depth vignettes below.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"BetaVisualizer"</span>, </span>
 <span>         package <span class="op">=</span> <span class="st">"RegrCoeffsExplorer"</span><span class="op">)</span>  <span class="co"># To visualize realized effect sizes </span></span>
@@ -288,13 +292,9 @@
 <h3 id="theoretical-considerations-regarding-the-interpretation-of-interaction-terms">Theoretical considerations regarding the interpretation of interaction terms<a class="anchor" aria-label="anchor" href="#theoretical-considerations-regarding-the-interpretation-of-interaction-terms"></a>
 </h3>
 <p>Consider a Linear Model with two continuous predictors and an interaction term:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>β</mi><mn>12</mn></msub><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">E[Y|\textbf{X}] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2</annotation></semantics></math></p>
-<p>Define the <strong>marginal effect</strong> by taking the partial derivative with respect to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>γ</mi><mn>2</mn></msub><mo>=</mo><mfrac><mrow><mi>∂</mi><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mn>2</mn></msub></mrow></mfrac><mo>=</mo><msub><mi>β</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\gamma_2 = \frac{\partial E[Y|\textbf{X}]}{\partial x_2} = \beta_2</annotation></semantics></math></p>
-<p>Therefore, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\beta_2</annotation></semantics></math> is sufficient to quantify how much <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y|\textbf{X}]</annotation></semantics></math> changes with respect to every one unit increase in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\beta_2</annotation></semantics></math>, holding all other variables constant.</p>
-<p>Now, take the second order cross-partial derivative of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y|\textbf{X}]</annotation></semantics></math> with respect to both <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>β</mi><mn>12</mn></msub><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">E[Y|\textbf{X}] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2</annotation></semantics></math> Take the second order cross-partial derivative of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y|\textbf{X}]</annotation></semantics></math> with respect to both <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math>:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>γ</mi><mn>12</mn><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><msup><mi>∂</mi><mn>2</mn></msup><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><mrow><mi>∂</mi><msub><mi>x</mi><mn>1</mn></msub><mi>∂</mi><msub><mi>x</mi><mn>2</mn></msub></mrow></mfrac><mo>=</mo><msub><mi>β</mi><mn>12</mn></msub></mrow><annotation encoding="application/x-tex">\gamma_{12}^2 = \frac{\partial^2 E[Y| \textbf{X}]}{\partial x_1 \partial x_2} = \beta_{12}</annotation></semantics></math></p>
-<p>Similar intuition as above holds. The interaction term <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mn>12</mn></msub><annotation encoding="application/x-tex">\beta_{12}</annotation></semantics></math> shows how effect of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math> on <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y|\textbf{X}]</annotation></semantics></math> changes for every one unit increase in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math> and vice versa.</p>
+<p>The interaction term <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mn>12</mn></msub><annotation encoding="application/x-tex">\beta_{12}</annotation></semantics></math> shows how effect of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math> on <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y|\textbf{X}]</annotation></semantics></math> changes for every one unit increase in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math> and vice versa.</p>
 <p>Now consider a logistic regression model with a non-linear link function <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>⋅</mo><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g(\cdot)</annotation></semantics></math>, two continuous predictors and an interaction term:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐗</mtext><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>β</mi><mn>12</mn></msub><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">g(E[Y|\textbf{X}])=\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{12} x_1 x_2</annotation></semantics></math></p>
 <p>Converting GLM to a natural scale using the inverse link function:</p>
@@ -343,7 +343,7 @@ X_2
 \right)</annotation></semantics></math></p>
 <p>Recall that the the pdf of the bivariate normal distribution has the following form (Pennsylvania State University 2024):</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mi>π</mi><msub><mi>σ</mi><mn>1</mn></msub><msub><mi>σ</mi><mn>2</mn></msub><msqrt><mrow><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup></mrow></msqrt></mrow></mfrac><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>ρ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>1</mn></msub></mrow><msub><mi>σ</mi><mn>1</mn></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>−</mo><mn>2</mn><mi>ρ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>1</mn></msub></mrow><msub><mi>σ</mi><mn>1</mn></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mn>2</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub></mrow><msub><mi>σ</mi><mn>2</mn></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><msub><mi>x</mi><mn>2</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub></mrow><msub><mi>σ</mi><mn>2</mn></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\phi(x_1, x_2) = \frac{1}{2\pi \sigma_1 \sigma_2 \sqrt{1 - \rho^2}} \exp\left(-\frac{1}{2(1 - \rho^2)} \left[ \left(\frac{x_1 - \mu_1}{\sigma_1}\right)^2 - 2\rho \left(\frac{x_1 - \mu_1}{\sigma_1}\right) \left(\frac{x_2 - \mu_2}{\sigma_2}\right) + \left(\frac{x_2 - \mu_2}{\sigma_2}\right)^2 \right] \right)</annotation></semantics></math></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Load necessary library</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">MASS</a></span><span class="op">)</span>          <span class="co"># for sampling from a multivariate normal distribution</span></span>
@@ -376,7 +376,7 @@ X_2
 <div class="section level4">
 <h4 id="fit-logistic-model-with-an-interaction-term">Fit logistic model with an interaction term:<a class="anchor" aria-label="anchor" href="#fit-logistic-model-with-an-interaction-term"></a>
 </h4>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Set parameters</span></span>
 <span><span class="va">n_samples</span> <span class="op">=</span>  <span class="fl">1000</span></span>
@@ -424,7 +424,7 @@ X_2
 <h4 id="check-distribution-of-interaction-term-values-at-different-values-of-x1b-andx2b">Check distribution of interaction term values at different values of <code>X1b</code> and<code>X2b</code>
 <a class="anchor" aria-label="anchor" href="#check-distribution-of-interaction-term-values-at-different-values-of-x1b-andx2b"></a>
 </h4>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Define x1 and x2 ranges</span></span>
 <span><span class="va">x1_range</span>     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
@@ -467,13 +467,13 @@ X_2
 <span>       y <span class="op">=</span> <span class="st">"Gamma Squared"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
 <p>Note that the estimate of the interaction term is positive (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.68345</mn><annotation encoding="application/x-tex">0.68345</annotation></semantics></math>). Yet, significant number of the gamma squared values are negative. Moreover, the magnitude and sign of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mover><mi>γ</mi><mo accent="true">̂</mo></mover><mn>12</mn><mn>2</mn></msubsup><annotation encoding="application/x-tex">\hat{\gamma}_{12}^2</annotation></semantics></math> are contingent upon the specific combination of <code>X1b</code> and <code>X2b</code> variables utilized in the analysis.</p>
 </div>
 <div class="section level4">
 <h4 id="visualize-changes-in-hateytextbfx-associated-with-one-unit-increase-in-x1b-at-different-quantiles-of-x2b">Visualize changes in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>E</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐱</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{E}[Y|\textbf{x}]</annotation></semantics></math> associated with one unit increase in <code>X1b</code> at different quantiles of <code>X2b</code>.<a class="anchor" aria-label="anchor" href="#visualize-changes-in-hateytextbfx-associated-with-one-unit-increase-in-x1b-at-different-quantiles-of-x2b"></a>
 </h4>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Generate a sequence of x1 values for plotting</span></span>
 <span><span class="va">x1_values</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
@@ -529,7 +529,7 @@ X_2
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">x1_values</span>, <span class="va">predictions</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">x1_values</span>, <span class="va">predictions</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">3</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"25% X2b"</span>, <span class="st">"50% X2b"</span>, <span class="st">"75% X2b"</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
 <p>The alterations in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>E</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐱</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{E}[Y|\textbf{x}]</annotation></semantics></math> associated with one-unit increments in <code>X1b</code> at the first and third quartiles of <code>X2b</code> demonstrate significant disparities. Observe the variations in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>E</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐱</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{E}[Y|\textbf{x}]</annotation></semantics></math> for a unit change in <code>X1b</code> from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math> to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math> (red) compared to the changes in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>E</mi><mo accent="true">̂</mo></mover><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="bold">𝐱</mtext><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{E}[Y|\textbf{x}]</annotation></semantics></math> for a unit change in X1b from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.5</mn><annotation encoding="application/x-tex">0.5</annotation></semantics></math> to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.5</mn><annotation encoding="application/x-tex">1.5</annotation></semantics></math> (green). Observe how the magnitudes of changes in the estimated probability associated with a unit increment in <code>X1b</code> vary depending on the position along the number line where the increment occurs. This observation substantiates the preliminary assertion regarding the inadequacy of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mn>12</mn></msub><annotation encoding="application/x-tex">\hat{\beta}_{12}</annotation></semantics></math> in capturing the interaction effects on the probability scale within the GLM framework, which incorporates two continuous predictors and an interaction term. Consequently, meticulous attention is required when incorporating interaction terms and interpreting the outcomes of models that include such terms.</p>
 </div>
 </div>
@@ -560,13 +560,23 @@ Pennsylvania State University. 2024. “Bivariate Normal Distribution.” <a hre
 <div id="ref-Thompson1998" class="csl-entry">
 Thompson, B. 1999. “Five Methodology Errors in Educational Research:apantheon of Statistical Significance and Other Faux Pas.” <em>Advances in Social Science Methodology</em> 5: 23–86. <a href="https://files.eric.ed.gov/fulltext/ED419023.pdf" class="external-link uri">https://files.eric.ed.gov/fulltext/ED419023.pdf</a>.
 </div>
+<div id="ref-R-RegrCoeffsExplorer" class="csl-entry">
+Tyuryaev, Vadim, Aleksandr Tsybakin, Jane Heffernan, Hanna Jankowski, and Kevin McGregor. 2024. <em>RegrCoeffsExplorer: Efficient Visualization of Regression Coefficients for Lm(), Glm(), and Glmnet() Objects</em>. Comprehensive R Archive Network (CRAN). <a href="https://doi.org/10.32614/CRAN.package.RegrCoeffsExplorer" class="external-link uri">https://doi.org/10.32614/CRAN.package.RegrCoeffsExplorer</a>.
+</div>
 <div id="ref-Wilkinson1999Statistical" class="csl-entry">
 Wilkinson, Leland. 1999. “Statistical Methods in Psychology Journals: Guidelines and Explanations.” <em>American Psychologist</em> 54: 594–604. <a href="https://doi.org/10.1037/0003-066X.54.8.594" class="external-link uri">https://doi.org/10.1037/0003-066X.54.8.594</a>.
 </div>
 </div>
 </div>
 
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=RegrCoeffsExplorer" class="external-link">View on CRAN</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -597,6 +607,7 @@ Wilkinson, Leland. 1999. “Statistical Methods in Psychology Journals: Guidelin
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/r-lib/rcmdcheck/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/r-lib/rcmdcheck/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://CRAN.R-project.org/package=RegrCoeffsExplorer" class="external-link"><img src="https://www.r-pkg.org/badges/version/RegrCoeffsExplorer" alt="CRAN Status"></a></li>
 </ul>
 </div>
 
